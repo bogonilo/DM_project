@@ -7,7 +7,7 @@ public class Prova {
         System.out.println("HEEEEELLLLLOOOOOO");
         System.out.println("HEEEEELLLLLOOOOOO");
         System.out.println("funziona can dal porco?");
-        System.out.println("Funziona tutto grazie al cielo. by DDD");
+        System.out.println("Funziona tutto grazie al cielo.. by DDD");
     }
 
 }
