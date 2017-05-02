@@ -64,7 +64,7 @@ which you can then include in your Java invocation as follows
 note that `build/classes/main` is included in the classpath as well,
 since it includes the actual compiled classes of the project.
 
-Windows build and examples.
+Windows build and examples
 ---------------------------
 
 For building the project, you can use the following command
