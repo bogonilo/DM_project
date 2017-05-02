@@ -20,30 +20,40 @@ public class WikiPage implements Serializable {
     return Encoders.bean(WikiPage.class);
   }
 
-  private long id;
+  private int id;
 
   private String title;
 
-  private String text;
+  private int year;
 
-  private String[] categories;
+  private String artist;
+
+  private String[] genre;
+
+  private String text;
 
   public WikiPage() { }
 
-  public WikiPage(long id, String title, String text, String[] categories) {
+  public WikiPage(int id, String title, int year, String artist, String[] genre, String text) {
     this.id = id;
     this.title = title;
+    this.year = year;
+    this.artist = artist;
+    this.genre = genre;
     this.text = text;
-    this.categories = categories;
   }
 
-  public long getId() {
+  //metodi per ID
+
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
+
+  //metodi per TITLE
 
   public String getTitle() {
     return title;
@@ -53,24 +63,36 @@ public class WikiPage implements Serializable {
     this.title = title;
   }
 
-  public String getText() {
-    return text;
-  }
+  //metodi per YEAR
+
+  public int getYear(){ return year; }
+
+  public void setYear(int year){ this.year = year; }
+
+  //metodi per ARTIST
+
+  public String getArtist(){ return artist; }
+
+  public void setArtist(){ this.artist = artist; }
+
+  //metodi per TEXT
+
+  public String getText() { return text; }
 
   public void setText(String text) {
     this.text = text;
   }
 
-  public String[] getCategories() {
-    return categories;
+  public String[] getGenre() {
+    return genre;
   }
 
-  public void setCategories(String[] categories) {
-    this.categories = categories;
+  public void setGenre(String[] genre) {
+    this.genre = genre;
   }
 
   @Override
   public String toString() {
-    return "(" + id + ") `" + title + "` " + Arrays.asList(categories) + " " + text;
+    return "( " + id + " ) | " + title + " | " + year + " | " + artist + " | " + Arrays.asList(genre) + " | " + text;
   }
 }
