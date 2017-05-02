@@ -13,9 +13,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 public class Sample {
 
   public static void main(String[] args) {
-    String inputPath = args[0];
-    String outputPath = args[1];
-    double fraction = Double.parseDouble(args[2]);
+    String inputPath = "sorgente.csv.bz2";
+    String outputPath = "analizzato.csv.bz2";
+    double fraction = Double.parseDouble(args[0]);
 
     // The usual Spark setup
     SparkConf conf = new SparkConf(true).setAppName("Sampler");
