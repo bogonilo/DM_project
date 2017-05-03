@@ -28,13 +28,13 @@ public class WikiPage implements Serializable {
 
   private String artist;
 
-  private String[] genre;
+  private String genre;
 
   private String text;
 
   public WikiPage() { }
 
-  public WikiPage(int id, String title, int year, String artist, String[] genre, String text) {
+  public WikiPage(int id, String title, int year, String artist, String genre, String text) {
     this.id = id;
     this.title = title;
     this.year = year;
@@ -85,16 +85,16 @@ public class WikiPage implements Serializable {
 
   //metodi per GENRE
 
-  public String[] getGenre() {
+  public String getGenre() {
     return genre;
   }
 
-  public void setGenre(String[] genre) {
+  public void setGenre(String genre) {
     this.genre = genre;
   }
 
   @Override
   public String toString() {
-    return "( " + id + " ) | " + title + " | " + year + " | " + artist + " | " + Arrays.asList(genre) + " | " + text;
+    return "( " + id + " ) || " + title + " || " + year + " || " + artist + " || " + genre + " || " + text;
   }
 }
