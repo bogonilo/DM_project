@@ -20,40 +20,30 @@ public class WikiPage implements Serializable {
     return Encoders.bean(WikiPage.class);
   }
 
-  private int id;
+  private long id;
 
   private String title;
 
-  private int year;
-
-  private String artist;
-
-  private String genre;
-
   private String text;
+
+  private String categories;
 
   public WikiPage() { }
 
-  public WikiPage(int id, String title, int year, String artist, String genre, String text) {
+  public WikiPage(long id, String title, String text, String categories) {
     this.id = id;
     this.title = title;
-    this.year = year;
-    this.artist = artist;
-    this.genre = genre;
     this.text = text;
+    this.categories = categories;
   }
 
-  //metodi per ID
-
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
-
-  //metodi per TITLE
 
   public String getTitle() {
     return title;
@@ -63,38 +53,24 @@ public class WikiPage implements Serializable {
     this.title = title;
   }
 
-  //metodi per YEAR
-
-  public int getYear(){ return year; }
-
-  public void setYear(int year){ this.year = year; }
-
-  //metodi per ARTIST
-
-  public String getArtist(){ return artist; }
-
-  public void setArtist(){ this.artist = artist; }
-
-  //metodi per TEXT
-
-  public String getText() { return text; }
+  public String getText() {
+    return text;
+  }
 
   public void setText(String text) {
     this.text = text;
   }
 
-  //metodi per GENRE
-
-  public String getGenre() {
-    return genre;
+  public String getCategories() {
+    return categories;
   }
 
-  public void setGenre(String genre) {
-    this.genre = genre;
+  public void setCategories(String categories) {
+    this.categories = categories;
   }
 
   @Override
   public String toString() {
-    return "( " + id + " ) || " + title + " || " + year + " || " + artist + " || " + genre + " || " + text;
+    return "(" + id + ") `" + title + "` " + categories + " " + text;
   }
 }
