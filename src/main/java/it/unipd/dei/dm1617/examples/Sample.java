@@ -13,8 +13,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 public class Sample {
 
   public static void main(String[] args) {
-    String inputPath = "sorgente.csv.bz2";
-    String outputPath = "analizzato.csv.bz2";
+    String inputPath = "medium-sample.dat.bz2";
+    String outputPath = "analizzato.dat.bz2";
     double fraction = Double.parseDouble(args[0]);
 
     // The usual Spark setup
