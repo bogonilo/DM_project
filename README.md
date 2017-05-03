@@ -59,7 +59,7 @@ You can store the result in an environment variable as follows
     
 which you can then include in your Java invocation as follows
 
-    java -Dspark.master=local -cp $CP:build/classes/main it.unipd.dei.dm1617.examples.Sample 0.1
+    java -Dspark.master=local -cp $CP:build/classes/main it.unipd.dei.dm1617.examples.Sample medium-sample.dat.bz2 small-sample.dat.bz2 0.1
 
 note that `build/classes/main` is included in the classpath as well,
 since it includes the actual compiled classes of the project.
