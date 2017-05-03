@@ -83,6 +83,8 @@ public class WikiPage implements Serializable {
     this.text = text;
   }
 
+  //metodi per GENRE
+
   public String[] getGenre() {
     return genre;
   }
