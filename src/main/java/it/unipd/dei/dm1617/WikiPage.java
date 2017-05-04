@@ -5,6 +5,7 @@ import org.apache.spark.sql.Encoders;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.function.Function;
 
 /**
  * Class that represents a single Wikipedia page. Modify it at your
@@ -14,63 +15,95 @@ import java.util.Arrays;
  * fields of the JSON objects we read from files) and for each field
  * there shuold be a pair of `getField` and `setField` methods.
  */
-public class WikiPage implements Serializable {
+public class WikiPage implements Serializable{
 
   public static Encoder<WikiPage> getEncoder() {
     return Encoders.bean(WikiPage.class);
   }
 
-  private long id;
+  private String id;
 
-  private String title;
+  private String song;
 
-  private String text;
+  private String year;
 
-  private String categories;
+  private String artist;
+
+  private String genre;
+
+  private String lyrics;
 
   public WikiPage() { }
 
-  public WikiPage(long id, String title, String text, String categories) {
+  public WikiPage(String id, String song, String year, String artist) {
     this.id = id;
-    this.title = title;
-    this.text = text;
-    this.categories = categories;
+    this.song = song;
+    this.year = year;
+    this.artist = artist;
   }
 
-  public long getId() {
+  public WikiPage(String id, String song, String year, String artist, String genre, String lyrics) {
+    this.id = id;
+    this.song = song;
+    this.year = year;
+    this.artist = artist;
+    this.genre = genre;
+    this.lyrics = lyrics;
+  }
+
+  public WikiPage(String genre, String lyrics) {
+    this.genre = genre;
+    this.lyrics = lyrics;
+  }
+
+  public String getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public String getTitle() {
-    return title;
+  public String getSong() { return song; }
+
+  public void setSong(String song) {
+    this.song = song;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public String getYear() {
+    return year;
   }
 
-  public String getText() {
-    return text;
+  public void setYear(String year) {
+    this.year = year;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public String getArtist() {
+    return artist;
   }
 
-  public String getCategories() {
-    return categories;
+  public void setArtist(String artist) {
+    this.artist = artist;
   }
 
-  public void setCategories(String categories) {
-    this.categories = categories;
+  public String getGenre() {
+    return genre;
+  }
+
+  public void setGenre(String genre) {
+    this.genre = genre;
+  }
+
+  public String getLyrics() {
+    return lyrics;
+  }
+
+  public void setLyrics(String Lyrics) {
+    this.lyrics = lyrics;
   }
 
   @Override
   public String toString() {
-    return "(" + id + ") `" + title + "` " + categories + " " + text;
+    return "{ " + id + " || " + song + " || " + year + " || " + artist + " || " + genre + " || " + lyrics + " }";
   }
 }

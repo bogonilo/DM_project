@@ -8,7 +8,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.feature.IDF;
 import org.apache.spark.mllib.linalg.Vector;
 import scala.Tuple2;
-import it.unipd.dei.dm1617.WikiPage;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -35,7 +35,7 @@ contents of these files using the `bzless` command line utility.
 
 This project stub provides the class `it.unipd.dei.dm1617.InputOutput`
 to load and write files with this format. The static methods of this
-class yield and require datasets of `it.unipd.dei.dm1617.WikiPage`
+class yield and require datasets of `it.unipd.dei.dm1617.Song`
 objects. Refer the documentation of these classes for further details.
 
 Linux/MacOS build and examples
