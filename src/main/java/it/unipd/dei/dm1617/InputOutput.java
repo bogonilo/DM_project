@@ -34,9 +34,9 @@ public class InputOutput {
    * particular, a dataset written to dis with this write function can be
    * loaded using the read function defined above
    */
-  public static void write(JavaRDD<WikiPage> rdd, String path) {
+  public static void write(JavaRDD<String> rdd, String path) {
     new SparkSession(rdd.context())
-      .createDataset(rdd.rdd(), WikiPage.getEncoder())
+      .createDataset(rdd.getEncoder())
       .write()
       .option("compression", "bzip2")
       .json(path);
