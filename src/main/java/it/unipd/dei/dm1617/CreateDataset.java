@@ -25,10 +25,10 @@ public class CreateDataset {
             StringTokenizer st;
 
             System.out.println(inputStream.next());
-            int c = 0; int x1; int count = 0; String temp2 = "";
+            int x1; int count = 0; String temp2 = "";
             // hashNext() loops line-by-line
-            //while(inputStream.hasNext()){
-            while(c < 1200000){
+            while(inputStream.hasNext()){
+            //while(c < 1600000){
                 //read single line, put in string
                 String data = inputStream.nextLine();
                 st = new StringTokenizer(data, ",");
@@ -62,7 +62,6 @@ public class CreateDataset {
                     } else  temp2 += temp;
 
                 }
-                c++;
                     //fileOut.write(st.nextToken() + "\n");
              //   fileOut.write(data + "\n");
             }
