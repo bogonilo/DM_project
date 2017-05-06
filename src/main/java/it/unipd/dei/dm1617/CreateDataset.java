@@ -72,11 +72,12 @@ public class CreateDataset {
             // after loop, close scanner
             inputStream.close();
             fileOut.close();
-
+            System.out.println("Indice ultima canzone analizzata" + count);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
