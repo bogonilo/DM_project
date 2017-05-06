@@ -45,14 +45,14 @@ public class CreateDataset {
 
                             if(x1 == count) {
                                 if(count != 0) {
-                                    fileOut.write("text : " + temp2 + "}");
+                                    fileOut.write("text : " + temp2 + "}\n");
                                     temp2 = "";
                                 }
-                                fileOut.write("{\"index\": " + x1 );
-                                fileOut.write("\"song\": " + st.nextToken() );
-                                fileOut.write("\"year\": " + st.nextToken() );
-                                fileOut.write("\"artist\": " + st.nextToken() );
-                                fileOut.write("\"genre\": " + st.nextToken() );
+                                fileOut.write("{\"index\": " + x1 + "," );
+                                fileOut.write("\"song\": " + st.nextToken() + ",");
+                                fileOut.write("\"year\": " + st.nextToken() + ",");
+                                fileOut.write("\"artist\": " + st.nextToken() + ",");
+                                fileOut.write("\"genre\": " + st.nextToken() + ",");
 
                                 count++;
                             }
@@ -71,7 +71,7 @@ public class CreateDataset {
             // after loop, close scanner
             inputStream.close();
             fileOut.close();
-            System.out.println("Indice ultima canzone analizzata" + count);
+            System.out.println("Indice ultima canzone analizzata: " + count);
         }catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e) {
