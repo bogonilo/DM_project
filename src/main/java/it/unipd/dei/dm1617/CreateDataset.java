@@ -28,7 +28,7 @@ public class CreateDataset {
             int c = 0; int x1; int count = 0; String temp2 = "";
             // hashNext() loops line-by-line
             //while(inputStream.hasNext()){
-            while(c < 1000){
+            while(c < 1200000){
                 //read single line, put in string
                 String data = inputStream.nextLine();
                 st = new StringTokenizer(data, ",");
@@ -37,21 +37,22 @@ public class CreateDataset {
 
                     String temp = st.nextToken();
 
-                    if (temp.length() <= 5) {
+                    if (temp.length() <= 6) {
 
                         try {
 
                             x1 = Integer.parseInt(temp);
 
                             if(x1 == count) {
-                                System.out.print("Text : " + temp2 + "\n");
-                                System.out.println("****************************************************************************");
-                                temp2 = "";
-                                System.out.print("Index : " + x1 + "\n");
-                                System.out.print("Song : " + st.nextToken() + "\n");
-                                System.out.print("Year : " + st.nextToken() + "\n");
-                                System.out.print("Artist : " + st.nextToken() + "\n");
-                                System.out.print("Genre : " + st.nextToken() + "\n");
+                                if(count != 0) {
+                                    fileOut.write("text : " + temp2 + "}");
+                                    temp2 = "";
+                                }
+                                fileOut.write("{\"index\": " + x1 );
+                                fileOut.write("\"song\": " + st.nextToken() );
+                                fileOut.write("\"year\": " + st.nextToken() );
+                                fileOut.write("\"artist\": " + st.nextToken() );
+                                fileOut.write("\"genre\": " + st.nextToken() );
 
                                 count++;
                             }
