@@ -5,6 +5,7 @@ package src.main.java.it.unipd.dei.dm1617;
  */
 
 import java.io.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -27,8 +28,8 @@ public class CreateDataset {
             System.out.println(inputStream.next());
             int x1; int count = 0; String temp2 = "";
             // hashNext() loops line-by-line
-            while(inputStream.hasNext()){
-            //while(c < 1600000){
+            //while(inputStream.hasNext()){
+            while(count < 100001){
                 //read single line, put in string
                 String data = inputStream.nextLine();
                 st = new StringTokenizer(data, ",");
@@ -45,14 +46,14 @@ public class CreateDataset {
 
                             if(x1 == count) {
                                 if(count != 0) {
-                                    fileOut.write("text : " + temp2 + "}\n");
+                                    fileOut.write("text:\"" + temp2 + "\"}\n");
                                     temp2 = "";
                                 }
-                                fileOut.write("{\"index\": " + x1 + "," );
-                                fileOut.write("\"song\": " + st.nextToken() + ",");
-                                fileOut.write("\"year\": " + st.nextToken() + ",");
-                                fileOut.write("\"artist\": " + st.nextToken() + ",");
-                                fileOut.write("\"genre\": " + st.nextToken() + ",");
+                                fileOut.write("{\"index\":" + x1 + "," );
+                                fileOut.write("\"song\":\"" + st.nextToken() + "\",");
+                                fileOut.write("\"year\":\"" + st.nextToken() + "\",");
+                                fileOut.write("\"artist\":\"" + st.nextToken() + "\",");
+                                fileOut.write("\"genre\":\"" + st.nextToken() + "\",");
 
                                 count++;
                             }
@@ -71,11 +72,16 @@ public class CreateDataset {
             // after loop, close scanner
             inputStream.close();
             fileOut.close();
-            System.out.println("Indice ultima canzone analizzata: " + count);
+            System.out.println("Indice ultima canzone analizzata: " + (count-1));
+
         }catch (FileNotFoundException e){
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
+        }
+        catch (NoSuchElementException e) {
+        e.printStackTrace();
         }
 
     }
