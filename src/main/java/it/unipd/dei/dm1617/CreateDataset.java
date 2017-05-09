@@ -46,7 +46,7 @@ public class CreateDataset {
 
                             if(x1 == count) {
                                 if(count != 0) {
-                                    fileOut.write("text:\"" + temp2 + "\"}\n");
+                                    fileOut.write("\"text\":" + temp2 + "}\n");
                                     temp2 = "";
                                 }
                                 fileOut.write("{\"index\":" + x1 + "," );
