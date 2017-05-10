@@ -60,10 +60,10 @@ public class CreateDataset {
                                             temp2.equalsIgnoreCase("(Instrumental)") ||
                                             temp2.equalsIgnoreCase("[Lyrics not available]"))){
 
-                                                if(temp2.charAt(0) == '"' )
-                                                    canzone += "\"text\":" + temp2;
+                                                if(temp2.charAt(0) == '"' || temp2.charAt(1) == '"' )
+                                                    canzone += "\"text\":" + temp2.trim();
                                                 else
-                                                    canzone += "\"text\":\"" + temp2;
+                                                    canzone += "\"text\":\"" + temp2.trim();
 
                                                 if(temp2.charAt(temp2.length()-1) == '"' )
                                                     canzone += "}\n";
