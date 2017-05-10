@@ -56,6 +56,7 @@ public class CreateDataset {
                                             genere.equalsIgnoreCase("not available") ||
                                             temp2.equalsIgnoreCase("[Instrumental]") ||
                                             temp2.equalsIgnoreCase("\"[Patterson][instrumental]\"") ||
+                                            temp2.equalsIgnoreCase("\"[Patterson] [instrumental]\"") ||
                                             temp2.equalsIgnoreCase("Instrumental") ||
                                             temp2.equalsIgnoreCase("(Instrumental)") ||
                                             temp2.equalsIgnoreCase("[Lyrics not available]"))){
@@ -87,7 +88,12 @@ public class CreateDataset {
                         } catch (NumberFormatException e) {}
 
 
-                    } else  temp2 += " " + temp;
+                    } else{
+                        if(temp2.length() != 0)
+                            temp2 += " " + temp;
+                        else
+                            temp2 = temp;
+                    }
 
                 }
                 //fileOut.write(st.nextToken() + "\n");
