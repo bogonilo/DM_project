@@ -50,7 +50,6 @@ public class CreateDataset {
 
                             if(x1 == count) {
                                 if(count != 0) {
-                                    canzone += "\"text\":" + temp2 + "}\n";
 
                                     if(!(temp2.equalsIgnoreCase("") ||
                                             genere.equalsIgnoreCase("other") ||
@@ -60,8 +59,19 @@ public class CreateDataset {
                                             temp2.equalsIgnoreCase("Instrumental") ||
                                             temp2.equalsIgnoreCase("(Instrumental)") ||
                                             temp2.equalsIgnoreCase("[Lyrics not available]"))){
-                                        fileOut.write(canzone);
-                                        numcanzoni ++;
+
+                                                if(temp2.charAt(0) == '"' )
+                                                    canzone += "\"text\":" + temp2;
+                                                else
+                                                    canzone += "\"text\":\"" + temp2;
+
+                                                if(temp2.charAt(temp2.length()-1) == '"' )
+                                                    canzone += "}\n";
+                                                else
+                                                    canzone += "\"}\n";
+
+                                                fileOut.write(canzone);
+                                                numcanzoni ++;
                                     }
                                     temp2 = "";
                                 }
@@ -77,7 +87,7 @@ public class CreateDataset {
                         } catch (NumberFormatException e) {}
 
 
-                    } else  temp2 += temp;
+                    } else  temp2 += " " + temp;
 
                 }
                 //fileOut.write(st.nextToken() + "\n");
