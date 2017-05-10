@@ -66,9 +66,9 @@ public class CreateDataset {
                                     temp2 = "";
                                 }
                                 canzone = "{\"index\":" + x1 + "," ;
-                                //canzone += "\"song\":\"" + st.nextToken() + "\",";
-                                //canzone += "\"year\":\"" + st.nextToken() + "\",";
-                                //canzone += "\"artist\":\"" + st.nextToken() + "\",";
+                                st.nextToken() ;
+                                st.nextToken() ;
+                                st.nextToken() ;
                                 genere = st.nextToken();
                                 canzone += "\"genre\":\"" + genere + "\",";
 
