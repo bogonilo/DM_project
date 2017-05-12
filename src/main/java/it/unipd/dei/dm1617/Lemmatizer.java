@@ -86,9 +86,10 @@ public class Lemmatizer {
       Scanner inputStream = new Scanner(file);
 
       //while(inputStream.hasNext())
-      while(count < 20000)
+      while(count < 20000) {
         temp += inputStream.nextLine();
-
+        count++;
+      }
       ArrayList<String> tempLemma = lemmatize(temp.substring(temp.indexOf(delim)+6));
       fileOut.write(tempLemma.toString());
 
