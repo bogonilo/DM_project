@@ -3,6 +3,7 @@ package it.unipd.dei.dm1617;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import src.main.java.it.unipd.dei.dm1617.Song;
 
 /**
  * Static methods to read and write datasets in (compressed) json
@@ -15,11 +16,11 @@ public class InputOutput {
    * Read a dataset from the given path, using the given
    * JavaSparkContext. Returns a dataset of WikiPage objects.
    */
-  public static JavaRDD<WikiPage> read(JavaSparkContext sc, String path) {
+  public static JavaRDD<Song> read(JavaSparkContext sc, String path) {
     return new SparkSession(sc.sc())
       .read()
       .json(path)
-      .as(WikiPage.getEncoder())
+      .as(Song.getEncoder())
       .javaRDD();
   }
 
@@ -34,9 +35,9 @@ public class InputOutput {
    * particular, a dataset written to dis with this write function can be
    * loaded using the read function defined above
    */
-  public static void write(JavaRDD<WikiPage> rdd, String path) {
+  public static void write(JavaRDD<Song> rdd, String path) {
     new SparkSession(rdd.context())
-      .createDataset(rdd.rdd(), WikiPage.getEncoder())
+      .createDataset(rdd.rdd(), Song.getEncoder())
       .write()
       .option("compression", "bzip2")
       .json(path);

@@ -79,12 +79,14 @@ public class Lemmatizer {
     FileWriter fileOut = new FileWriter("lemmatizzato.csv");
 
     String delim = "text", temp = "";
+    int count = 0;
 
     try {
       // -read from filePooped with Scanner class
       Scanner inputStream = new Scanner(file);
 
-      while(inputStream.hasNext())
+      //while(inputStream.hasNext())
+      while(count < 20000)
         temp += inputStream.nextLine();
 
       ArrayList<String> tempLemma = lemmatize(temp.substring(temp.indexOf(delim)+6));
