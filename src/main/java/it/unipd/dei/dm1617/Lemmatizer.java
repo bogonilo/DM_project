@@ -98,7 +98,7 @@ public class Lemmatizer {
       // -read from filePooped with Scanner class
       Scanner inputStream = new Scanner(file);
 
-      System.out.println("******Inizio lemmatizzazione******");
+      System.out.println("++++++Inizio lemmatizzazione++++++");
 
       while (inputStream.hasNext()) {
 
@@ -114,12 +114,12 @@ public class Lemmatizer {
 
       }
 
-      System.out.println("Fine lemmatizzazione");
-      System.out.println("******Inizio Raggruppamento elementi per genere******");
+      System.out.println("------Fine lemmatizzazione------");
+      System.out.println("++++++Inizio Raggruppamento elementi per genere++++++");
 
       Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
 
-      System.out.println("Fine raggruppamento");
+      System.out.println("------Fine raggruppamento------");
 
       generiGrouped
         .forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
