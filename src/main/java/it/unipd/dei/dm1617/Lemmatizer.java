@@ -104,10 +104,7 @@ public class Lemmatizer {
 
         String temp1 = inputStream.nextLine();
 
-
         int index = Integer.parseInt(temp1.subSequence(temp1.indexOf("\"index\":") + 8, temp1.indexOf("\"genre\":") - 1).toString());
-
-        System.out.println(" -- " + index);
 
         String genere = (String) temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3);
 
@@ -125,7 +122,7 @@ public class Lemmatizer {
       System.out.println("Fine raggruppamento");
 
       generiGrouped
-        .forEach((genre, textLemma) -> System.out.format("Genere %s: \n", textLemma));
+        .forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
 
       //JavaRDD<String> songRDD = listGeneri.stream().collect(Collectors.groupingBy(p -> p.gen));
 
