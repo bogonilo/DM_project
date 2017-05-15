@@ -4,12 +4,10 @@ package it.unipd.dei.dm1617;
 import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
 import org.apache.spark.api.java.JavaRDD;
-import src.main.java.it.unipd.dei.dm1617.Generi;
 import src.main.java.it.unipd.dei.dm1617.Song;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -74,28 +72,12 @@ public class Lemmatizer {
 
     File file = new File(inputPath);
 
-    FileWriter fileOut = new FileWriter("lemmatizzato.csv");
-
     String delim = "text", testo = "";
 
-    //ArrayList<String> lemmatizzato = new ArrayList<String>();
-
-
-    //int count = 0;
-
-    //String[] listaGeneri = creaGeneri(file, delim);
-
-    //ArrayList<Generi> generiArray = new ArrayList<Generi>();
-
-
-    //for(int i = 0; i < listaGeneri.length; i++)
-    //    generiArray.add(new Generi((String) listaGeneri[i]));
-
-    //  System.out.println(generiArray.toString());
     List<Song> listGeneri = new ArrayList<Song>();
 
     try {
-      // -read from filePooped with Scanner class
+
       Scanner inputStream = new Scanner(file);
 
       System.out.println("++++++Inizio lemmatizzazione++++++");
@@ -106,7 +88,7 @@ public class Lemmatizer {
 
         int index = Integer.parseInt(temp1.subSequence(temp1.indexOf("\"index\":") + 8, temp1.indexOf("\"genre\":") - 1).toString());
 
-        String genere = (String) temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3);
+        String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3).toString();
 
         testo = temp1.substring(temp1.indexOf(delim) + 6);
 
@@ -122,12 +104,6 @@ public class Lemmatizer {
       System.out.println("------Fine raggruppamento------");
 
       //generiGrouped.forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
-
-      //JavaRDD<String> songRDD = listGeneri.stream().collect(Collectors.groupingBy(p -> p.gen));
-
-      //lemmatize(testi);
-      //ArrayList<String> tempLemma = lemmatize(temp);
-      //fileOut.write(tempLemma.toString());
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
