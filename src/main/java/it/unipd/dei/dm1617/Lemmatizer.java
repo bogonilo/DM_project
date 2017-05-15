@@ -121,8 +121,7 @@ public class Lemmatizer {
 
       System.out.println("------Fine raggruppamento------");
 
-      generiGrouped
-        .forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
+      //generiGrouped.forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
 
       //JavaRDD<String> songRDD = listGeneri.stream().collect(Collectors.groupingBy(p -> p.gen));
 
