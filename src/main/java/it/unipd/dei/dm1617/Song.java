@@ -1,4 +1,4 @@
-package it.unipd.dei.dm1617;
+package src.main.java.it.unipd.dei.dm1617;
 
 import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
@@ -22,16 +22,16 @@ public class Song implements Serializable {
 
   private long index;
 
-  private String genres;
+  private String genre;
 
-  private String text;
+  private String textLemma;
 
   public Song() { }
 
-  public Song(long index, String title,String genres) {
+  public Song(long index, String genre, String textLemma) {
     this.index = index;
-    this.text = text;
-    this.genres = genres;
+    this.genre = genre;
+    this.textLemma = textLemma;
   }
 
   public long getIndex() {
@@ -43,24 +43,24 @@ public class Song implements Serializable {
   }
 
   public String getGenres() {
-    return genres;
+    return genre;
   }
 
-  public void setGenres(String genres) {
-    this.genres = genres;
+  public void setGenres(String genre) {
+    this.genre = genre;
   }
 
-  public String getText() {
-    return text;
+  public String getTextLemma() {
+    return textLemma;
   }
 
-  public void setText(String text) {
-    this.text = text;
+  public void setTextLemma(String textLemma) {
+    this.textLemma = textLemma;
   }
 
 
   @Override
   public String toString() {
-    return "(" + index + ") " + genres +" " + text;
+    return "(" + index + ") " + genre +" " + textLemma;
   }
 }
