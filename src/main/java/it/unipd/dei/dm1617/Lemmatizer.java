@@ -108,20 +108,21 @@ public class Lemmatizer {
 
         listGeneri.add(new Song (index, genere, controlla(temp2).toString()));
 
-        //fileOut.write(new Song (index, genere, lemmatize(testo).toString()).toString());
       }
 
-      fileOut.write(listGeneri.toString());
+      for(int i = 0; i < listGeneri.size(); i++){
+        String stampare = listGeneri.get(i).toString();
+        fileOut.write((stampare.substring(1, stampare.length())));
+      }
+
       fileOut.flush();
       fileOut.close();
       System.out.println("------Fine lemmatizzazione------");
       System.out.println("++++++Inizio Raggruppamento elementi per genere++++++");
 
-      //Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
-
       System.out.println("------Fine raggruppamento------");
 
-      //generiGrouped.forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
+      Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();

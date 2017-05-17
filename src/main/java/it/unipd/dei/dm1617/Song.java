@@ -61,6 +61,6 @@ public class Song implements Serializable {
 
   @Override
   public String toString() {
-    return "(" + index + ") " + textLemma;
+    return textLemma;
   }
 }
