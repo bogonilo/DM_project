@@ -3,15 +3,25 @@ package it.unipd.dei.dm1617;
 
 import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import src.main.java.it.unipd.dei.dm1617.Song;
 
+import it.unipd.dei.dm1617.Song;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.mllib.clustering.KMeans;
+import org.apache.spark.mllib.clustering.KMeansModel;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
 
 /**
  * Collection of functions that allow to transform texts to sequence
@@ -76,6 +86,8 @@ public class Lemmatizer {
 
     List<Song> listGeneri = new ArrayList<Song>();
 
+    FileWriter fileOut = new FileWriter("lemma.txt");
+
     try {
 
       Scanner inputStream = new Scanner(file);
@@ -90,20 +102,27 @@ public class Lemmatizer {
 
         String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3).toString();
 
-        testo = temp1.substring(temp1.indexOf(delim) + 6);
+        testo = temp1.substring(temp1.indexOf(delim) + 7, temp1.length() - 2);
 
-        listGeneri.add(new Song (index, genere, lemmatize(testo).toString()));
+        ArrayList<String> temp2 = lemmatize(testo);
+
+        listGeneri.add(new Song (index, genere, controlla(temp2).toString()));
 
       }
 
+      for(int i = 0; i < listGeneri.size(); i++){
+        String stampare = listGeneri.get(i).toString();
+        fileOut.write((stampare.substring(1, stampare.length())));
+      }
+
+      fileOut.flush();
+      fileOut.close();
       System.out.println("------Fine lemmatizzazione------");
       System.out.println("++++++Inizio Raggruppamento elementi per genere++++++");
 
-      Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
-
       System.out.println("------Fine raggruppamento------");
 
-      //generiGrouped.forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
+      Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -112,58 +131,18 @@ public class Lemmatizer {
       e.printStackTrace();
     }
 
-
   }
 
-  public static String[] creaGeneri (File file, String delim){
-
-    int count = 0, countGenere = 0;
-    String[] finale = new String[0];
-
-      List<String> listaGeneri = new ArrayList<String>();
-
-    try {
-        // -read from filePooped with Scanner class
-        Scanner inputStream = new Scanner(file);
-
-        while (inputStream.hasNext()) {
-            countGenere = 0;
-
-            String temp1 = inputStream.nextLine();
-
-            String genere = (String) temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3);
-
-
-            for (int i = 0; i < listaGeneri.size(); i++) {
-
-                if (!(genere.equalsIgnoreCase(listaGeneri.get(i))))
-                    countGenere++;
-
-            }
-
-            if (countGenere == listaGeneri.size())
-                listaGeneri.add(genere);
-
-        }
-
-        finale = listaGeneri.toArray(new String[listaGeneri.size()]);
-
-    }catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    return finale;
-  }
-
-  public static int getPosizione (String stringaDaCercare, ArrayList<Generi> lista){
-    int posizione = -1;
-
-    for (int i=0; i<lista.size();i++){
-      if (lista.get(i).getGenere().equalsIgnoreCase(stringaDaCercare)){
-        posizione = i;
+  public static ArrayList<String> controlla(ArrayList<String> input) {
+    ArrayList<String> output = input;
+    for (int i = 0; i < input.size(); i++) {
+      if (input.get(i).indexOf('-') != -1) {
+       //System.out.println(input.get(i));
+        input.remove(i);
       }
+
     }
-
-    return posizione;
+    //System.out.println(input.get(input.size()-1));
+    return input;
   }
-
 }
