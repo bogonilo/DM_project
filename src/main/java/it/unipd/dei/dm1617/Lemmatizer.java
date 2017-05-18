@@ -93,6 +93,7 @@ public class Lemmatizer {
     String delim = "text", testo = "";
 
     ArrayList<String> testi = new ArrayList<>();
+    ArrayList<String> generi = new ArrayList<>();
 
     try {
 
@@ -111,6 +112,9 @@ public class Lemmatizer {
         testo = temp1.substring(temp1.indexOf(delim) + 7, temp1.length() - 2);
 
         testi.add(controlla(lemmatize(testo)).toString());
+
+        if(generi.indexOf(genere) == -1)
+          generi.add(genere);
 
       }
 
@@ -132,6 +136,11 @@ public class Lemmatizer {
         System.out.println(s);
       }
       */
+      String stampa = "" + generi.size();
+      FileWriter fileOut = new FileWriter("generi.txt");
+      fileOut.write(stampa);
+      fileOut.flush();
+      fileOut.close();
 
       Word2Vector(testi);
 
@@ -197,11 +206,23 @@ public class Lemmatizer {
     try {
       FileWriter fileOut = new FileWriter("lemma.txt");
 
+      int count = 0;
       for (Row row : result.collectAsList()) {
         List<String> text = row.getList(0);
         org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
         //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
-        fileOut.write("Text: " + text + " => \nVector: " + vector + "\n");
+        String stampa = "" + count;
+        int count2 = 1;
+        String vettore = vector.toString();
+        String[] s1 = vettore.substring(1, vettore.length()-1).split(",");
+        for(int i = 0; i < s1.length; i++) {
+          stampa += " " + count2 + ":" + s1[i];
+          count2++;
+        }
+
+        fileOut.write(stampa + "\n");
+        count ++;
+
       }
       // $example off$
 

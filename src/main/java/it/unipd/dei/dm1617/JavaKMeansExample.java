@@ -8,6 +8,10 @@ import org.apache.spark.sql.Row;
 // $example off$
 import org.apache.spark.sql.SparkSession;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 
 /**
  * An example demonstrating k-means clustering.
@@ -27,11 +31,23 @@ public class JavaKMeansExample {
 
         // $example on$
         // Loads data.
-        Dataset<Row> dataset = spark.read().format("libsvm").load("data/mllib/sample_kmeans_data.txt");
+        int numK = 0;
+        try{
+            String inputPath = "generi.txt";
+            File file = new File(inputPath);
+            Scanner inputStream = new Scanner(file);
+
+            numK = Integer.parseInt(inputStream.next());
+            //System.out.println(numK);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        Dataset<Row> dataset = spark.read().format("libsvm").load("lemma.txt");
 
         // Trains a k-means model.
         //Set the random seed for cluster initialization.
-        KMeans kmeans = new KMeans().setK(2).setSeed(1L);
+        KMeans kmeans = new KMeans().setK(numK).setSeed(1L);
         KMeansModel model = kmeans.fit(dataset);
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors.
