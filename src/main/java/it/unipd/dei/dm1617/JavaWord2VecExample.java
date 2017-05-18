@@ -31,6 +31,7 @@ public class JavaWord2VecExample {
                 RowFactory.create(Arrays.asList("I wish Java could use case classes".split(" "))),
                 RowFactory.create(Arrays.asList("Logistic regression models are neat".split(" ")))
         );
+
         StructType schema = new StructType(new StructField[]{
                 new StructField("text", new ArrayType(DataTypes.StringType, true), false, Metadata.empty())
         });
