@@ -22,16 +22,13 @@ public class Song implements Serializable {
 
   private long index;
 
-  private String genre;
-
-  private String textLemma;
+  private String text;
 
   public Song() { }
 
-  public Song(long index, String genre, String textLemma) {
+  public Song(long index, String text) {
     this.index = index;
-    this.genre = genre;
-    this.textLemma = textLemma;
+    this.text = text;
   }
 
   public long getIndex() {
@@ -42,25 +39,17 @@ public class Song implements Serializable {
     this.index = id;
   }
 
-  public String getGenres() {
-    return genre;
+  public String getText() {
+    return text;
   }
 
-  public void setGenres(String genre) {
-    this.genre = genre;
-  }
-
-  public String getTextLemma() {
-    return textLemma;
-  }
-
-  public void setTextLemma(String textLemma) {
-    this.textLemma = textLemma;
+  public void setText(String text) {
+    this.text = text;
   }
 
 
   @Override
   public String toString() {
-    return textLemma;
+    return text;
   }
 }
