@@ -3,15 +3,33 @@ package it.unipd.dei.dm1617;
 
 import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
-import src.main.java.it.unipd.dei.dm1617.Song;
 
+import it.unipd.dei.dm1617.Song;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.mllib.clustering.KMeans;
+import org.apache.spark.mllib.clustering.KMeansModel;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
+import org.codehaus.janino.Java;
+import org.apache.spark.ml.feature.Word2Vec;
+import org.apache.spark.ml.feature.Word2VecModel;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.*;
 
 /**
  * Collection of functions that allow to transform texts to sequence
@@ -74,7 +92,8 @@ public class Lemmatizer {
 
     String delim = "text", testo = "";
 
-    List<Song> listGeneri = new ArrayList<Song>();
+    ArrayList<String> testi = new ArrayList<>();
+    ArrayList<String> generi = new ArrayList<>();
 
     try {
 
@@ -90,20 +109,40 @@ public class Lemmatizer {
 
         String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3).toString();
 
-        testo = temp1.substring(temp1.indexOf(delim) + 6);
+        testo = temp1.substring(temp1.indexOf(delim) + 7, temp1.length() - 2);
 
-        listGeneri.add(new Song (index, genere, lemmatize(testo).toString()));
+        testi.add(controlla(lemmatize(testo)).toString());
+
+        if(generi.indexOf(genere) == -1)
+          generi.add(genere);
 
       }
 
+      /*for(int i = 0; i < listGeneri.size(); i++){
+        String stampare = listGeneri.get(i).toString();
+        fileOut.write((stampare.substring(1, stampare.length())));
+      }
+      fileOut.flush();
+      fileOut.close();*/
+
       System.out.println("------Fine lemmatizzazione------");
       System.out.println("++++++Inizio Raggruppamento elementi per genere++++++");
-
-      Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
-
       System.out.println("------Fine raggruppamento------");
 
-      //generiGrouped.forEach((genre, textLemma) -> System.out.format("Genere %s \n", textLemma));
+      //Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
+
+      /*Iterable<String> iterable = testi;
+      for (String s : iterable) {
+        System.out.println(s);
+      }
+      */
+      String stampa = "" + generi.size();
+      FileWriter fileOut = new FileWriter("generi.txt");
+      fileOut.write(stampa);
+      fileOut.flush();
+      fileOut.close();
+
+      Word2Vector(testi);
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -112,58 +151,88 @@ public class Lemmatizer {
       e.printStackTrace();
     }
 
-
   }
 
-  public static String[] creaGeneri (File file, String delim){
+  public static ArrayList<String> controlla(ArrayList<String> input) {
+    ArrayList<String> output = input;
+    for (int i = 0; i < input.size(); i++) {
+      if (input.get(i).indexOf('-') != -1) {
+       //System.out.println(input.get(i));
+        input.remove(i);
+      }
 
-    int count = 0, countGenere = 0;
-    String[] finale = new String[0];
+    }
+    //System.out.println(input.get(input.size()-1));
+    return input;
+  }
 
-      List<String> listaGeneri = new ArrayList<String>();
+  public static void Word2Vector (ArrayList input){
+    SparkSession spark = SparkSession
+            .builder()
+            .appName("JavaWord2VecExample")
+            .getOrCreate();
+
+    // $example on$
+    // Input data: Each row is a bag of words from a sentence or document.
+
+    String temp1 = "" ;
+
+    Row[] r1 = new Row[input.size()];
+      for(int i = 0; i < input.size(); i++) {
+      temp1 = input.get(i).toString();
+      r1[i] = RowFactory.create(Arrays.asList(temp1.substring(1, temp1.length()-1).split(", ")));
+    }
+    System.out.println("++++++Inizio Word2Vec++++++");
+
+    List<Row> data = Arrays.asList(r1);
+
+    StructType schema = new StructType(new StructField[]{
+            new StructField("text", new ArrayType(DataTypes.StringType, true), false, Metadata.empty())
+    });
+    Dataset<Row> documentDF = spark.createDataFrame(data, schema);
+
+    // Learn a mapping from words to Vectors.
+    Word2Vec word2Vec = new Word2Vec()
+            .setInputCol("text")
+            .setOutputCol("result")
+            .setVectorSize(100)
+            .setMinCount(0);
+
+    Word2VecModel model = word2Vec.fit(documentDF);
+    Dataset<Row> result = model.transform(documentDF);
+    System.out.println("------Fine Word2Vec------");
+    System.out.println("------Inizio scrittura lemma.txt------");
 
     try {
-        // -read from filePooped with Scanner class
-        Scanner inputStream = new Scanner(file);
+      FileWriter fileOut = new FileWriter("lemma.txt");
 
-        while (inputStream.hasNext()) {
-            countGenere = 0;
-
-            String temp1 = inputStream.nextLine();
-
-            String genere = (String) temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3);
-
-
-            for (int i = 0; i < listaGeneri.size(); i++) {
-
-                if (!(genere.equalsIgnoreCase(listaGeneri.get(i))))
-                    countGenere++;
-
-            }
-
-            if (countGenere == listaGeneri.size())
-                listaGeneri.add(genere);
-
+      int count = 0;
+      for (Row row : result.collectAsList()) {
+        List<String> text = row.getList(0);
+        org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
+        //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
+        String stampa = "" + count;
+        int count2 = 1;
+        String vettore = vector.toString();
+        String[] s1 = vettore.substring(1, vettore.length()-1).split(",");
+        for(int i = 0; i < s1.length; i++) {
+          stampa += " " + count2 + ":" + s1[i];
+          count2++;
         }
 
-        finale = listaGeneri.toArray(new String[listaGeneri.size()]);
+        fileOut.write(stampa + "\n");
+        count ++;
 
-    }catch (FileNotFoundException e) {
+      }
+      // $example off$
+
+      spark.stop();
+      fileOut.flush();
+      fileOut.close();
+      System.out.println("------Fine scrittura------");
+    }catch (IOException e){
       e.printStackTrace();
     }
-    return finale;
-  }
-
-  public static int getPosizione (String stringaDaCercare, ArrayList<Generi> lista){
-    int posizione = -1;
-
-    for (int i=0; i<lista.size();i++){
-      if (lista.get(i).getGenere().equalsIgnoreCase(stringaDaCercare)){
-        posizione = i;
-      }
-    }
-
-    return posizione;
   }
 
 }

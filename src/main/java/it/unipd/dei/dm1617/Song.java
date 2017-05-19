@@ -1,4 +1,4 @@
-package src.main.java.it.unipd.dei.dm1617;
+package it.unipd.dei.dm1617;
 
 import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
@@ -61,6 +61,6 @@ public class Song implements Serializable {
 
   @Override
   public String toString() {
-    return "(" + index + ") " + genre +" " + textLemma;
+    return textLemma;
   }
 }

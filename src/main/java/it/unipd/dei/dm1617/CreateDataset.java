@@ -1,4 +1,4 @@
-package src.main.java.it.unipd.dei.dm1617;
+package it.unipd.dei.dm1617;
 
 /**
  * Created by daniele on 06/05/17.
