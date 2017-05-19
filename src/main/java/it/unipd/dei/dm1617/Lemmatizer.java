@@ -130,7 +130,7 @@ public class Lemmatizer {
 
         count++;
         if((count % 10000) == 0)
-          System.out.println(count/233000*100);
+          System.out.println(count);
 
       }
       fileOut.flush();

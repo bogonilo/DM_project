@@ -43,7 +43,7 @@ public class JavaKMeansExample {
             e.printStackTrace();
         }
 
-        Dataset<Row> dataset = spark.read().format("libsvm").load("lemma.txt");
+        Dataset<Row> dataset = spark.read().format("libsvm").load("word2vec.txt");
 
         // Trains a k-means model.
         //Set the random seed for cluster initialization.
