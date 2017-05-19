@@ -82,7 +82,7 @@ public class JavaWord2Vec {
         Word2Vec word2Vec = new Word2Vec()
                 .setInputCol("text")
                 .setOutputCol("result")
-                .setVectorSize(100)
+                .setVectorSize(300)
                 .setMinCount(0);
 
         Word2VecModel model = word2Vec.fit(documentDF);
