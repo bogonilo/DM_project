@@ -30,6 +30,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.*;
+import scala.math.Ordering;
 
 /**
  * Collection of functions that allow to transform texts to sequence
@@ -91,9 +92,12 @@ public class Lemmatizer {
     File file = new File(inputPath);
 
     String delim = "text", testo = "";
+    int count = 0;
 
     ArrayList<String> testi = new ArrayList<>();
     ArrayList<String> generi = new ArrayList<>();
+
+    FileWriter fileOut = new FileWriter("lemma.txt");
 
     try {
 
@@ -101,7 +105,11 @@ public class Lemmatizer {
 
       System.out.println("++++++Inizio lemmatizzazione++++++");
 
-      while (inputStream.hasNext()) {
+      Date dat = new Date();
+//Restituzione delle informazioni
+      System.out.println(dat.getHours() + " - " + dat.getMinutes());
+
+      while (count < 10000) {
 
         String temp1 = inputStream.nextLine();
 
@@ -111,12 +119,22 @@ public class Lemmatizer {
 
         testo = temp1.substring(temp1.indexOf(delim) + 7, temp1.length() - 2);
 
-        testi.add(controlla(lemmatize(testo)).toString());
+        String testoLemma = controlla(lemmatize(testo)).toString();
+
+        testi.add(testoLemma);
+
+        fileOut.write("{\"index\":" + index + "," + "\"genre\":" + genere + "," + "\"text\":" + testoLemma.trim() + "}\n");
 
         if(generi.indexOf(genere) == -1)
           generi.add(genere);
 
+        count++;
+        if((count % 10000) == 0)
+          System.out.println(count);
+
       }
+      fileOut.flush();
+      fileOut.close();
 
       /*for(int i = 0; i < listGeneri.size(); i++){
         String stampare = listGeneri.get(i).toString();
@@ -126,8 +144,6 @@ public class Lemmatizer {
       fileOut.close();*/
 
       System.out.println("------Fine lemmatizzazione------");
-      System.out.println("++++++Inizio Raggruppamento elementi per genere++++++");
-      System.out.println("------Fine raggruppamento------");
 
       //Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
 
@@ -137,12 +153,12 @@ public class Lemmatizer {
       }
       */
       String stampa = "" + generi.size();
-      FileWriter fileOut = new FileWriter("generi.txt");
-      fileOut.write(stampa);
-      fileOut.flush();
-      fileOut.close();
+      FileWriter fileOut1 = new FileWriter("generi.txt");
+      fileOut1.write(stampa);
+      fileOut1.flush();
+      fileOut1.close();
 
-      Word2Vector(testi);
+      //Word2Vector(testi);
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -164,75 +180,6 @@ public class Lemmatizer {
     }
     //System.out.println(input.get(input.size()-1));
     return input;
-  }
-
-  public static void Word2Vector (ArrayList input){
-    SparkSession spark = SparkSession
-            .builder()
-            .appName("JavaWord2VecExample")
-            .getOrCreate();
-
-    // $example on$
-    // Input data: Each row is a bag of words from a sentence or document.
-
-    String temp1 = "" ;
-
-    Row[] r1 = new Row[input.size()];
-      for(int i = 0; i < input.size(); i++) {
-      temp1 = input.get(i).toString();
-      r1[i] = RowFactory.create(Arrays.asList(temp1.substring(1, temp1.length()-1).split(", ")));
-    }
-    System.out.println("++++++Inizio Word2Vec++++++");
-
-    List<Row> data = Arrays.asList(r1);
-
-    StructType schema = new StructType(new StructField[]{
-            new StructField("text", new ArrayType(DataTypes.StringType, true), false, Metadata.empty())
-    });
-    Dataset<Row> documentDF = spark.createDataFrame(data, schema);
-
-    // Learn a mapping from words to Vectors.
-    Word2Vec word2Vec = new Word2Vec()
-            .setInputCol("text")
-            .setOutputCol("result")
-            .setVectorSize(100)
-            .setMinCount(0);
-
-    Word2VecModel model = word2Vec.fit(documentDF);
-    Dataset<Row> result = model.transform(documentDF);
-    System.out.println("------Fine Word2Vec------");
-    System.out.println("------Inizio scrittura lemma.txt------");
-
-    try {
-      FileWriter fileOut = new FileWriter("lemma.txt");
-
-      int count = 0;
-      for (Row row : result.collectAsList()) {
-        List<String> text = row.getList(0);
-        org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
-        //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
-        String stampa = "" + count;
-        int count2 = 1;
-        String vettore = vector.toString();
-        String[] s1 = vettore.substring(1, vettore.length()-1).split(",");
-        for(int i = 0; i < s1.length; i++) {
-          stampa += " " + count2 + ":" + s1[i];
-          count2++;
-        }
-
-        fileOut.write(stampa + "\n");
-        count ++;
-
-      }
-      // $example off$
-
-      spark.stop();
-      fileOut.flush();
-      fileOut.close();
-      System.out.println("------Fine scrittura------");
-    }catch (IOException e){
-      e.printStackTrace();
-    }
   }
 
 }

@@ -32,8 +32,8 @@ public class CreateDataset {
             System.out.println(inputStream.next());
             int x1; int count = 0; String temp2 = "";
             // hashNext() loops line-by-line
-            //while(inputStream.hasNext()){
-            while(count < 150001){
+            while(inputStream.hasNext()){
+            //while(count < 150001){
                 //read single line, put in string
                 String data = inputStream.nextLine();
                 st = new StringTokenizer(data, ",");
@@ -84,6 +84,7 @@ public class CreateDataset {
                                 canzone += "\"genre\":\"" + genere + "\",";
 
                                 count++;
+
                             }
                         } catch (NumberFormatException e) {}
 

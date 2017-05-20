@@ -10,6 +10,8 @@ import org.apache.spark.sql.SparkSession;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -20,9 +22,9 @@ import java.util.Scanner;
  * bin/run-example ml.JavaKMeansExample
  * </pre>
  */
-public class JavaKMeansExample {
+public class JavaKMeans {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         // Create a SparkSession.
         SparkSession spark = SparkSession
                 .builder()
@@ -43,25 +45,33 @@ public class JavaKMeansExample {
             e.printStackTrace();
         }
 
-        Dataset<Row> dataset = spark.read().format("libsvm").load("lemma.txt");
+        Dataset<Row> dataset = spark.read().format("libsvm").load("word2vec.txt");
 
         // Trains a k-means model.
         //Set the random seed for cluster initialization.
-        KMeans kmeans = new KMeans().setK(numK).setSeed(1L);
+        KMeans kmeans = new KMeans().setK(numK*50).setSeed(1L);
         KMeansModel model = kmeans.fit(dataset);
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors.
         double WSSSE = model.computeCost(dataset);
         System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
 
-        // Shows the result.
-        Vector[] centers = model.clusterCenters();
-        System.out.println("Cluster Centers: ");
-        for (Vector center: centers) {
-            System.out.println(center);
-        }
-        // $example off$
+        try {
 
+            FileWriter fileOut = new FileWriter("centri.txt");
+            // Shows the result.
+            Vector[] centers = model.clusterCenters();
+            System.out.println("Cluster Centers: ");
+            for (Vector center : centers) {
+                fileOut.write(center.toString());
+            }
+            // $example off$
+            fileOut.flush();
+            fileOut.close();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         spark.stop();
     }
 }
