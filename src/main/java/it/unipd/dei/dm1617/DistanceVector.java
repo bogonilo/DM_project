@@ -49,12 +49,12 @@ public class DistanceVector{
         }
 
 // Now proceed with your list, e.g. retrieve first item and split
-        int i = list.size();
-        int it = 0;
+
+        int i = 0;
         List<Vector<Double>> vettore = new ArrayList<>();
         Vector<Double> vv = new Vector<Double>();
-        while (it <= i) {
-            String[] parts = list.get(it). split(",");
+        while (i<vettore.size()) {
+            String[] parts = list.get(i). split(",");
 
 // You can simplify the for loop like this,
 // you call this for each:
@@ -65,9 +65,9 @@ public class DistanceVector{
             }
             vettore.add(vv);
 
-            System.out.print(vettore.get(it) + "\n");
+           System.out.print(vettore.get(i) + "\n");
             vv.removeAllElements();
-            it++;
+            i++;
 
         }
 
