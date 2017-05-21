@@ -3,8 +3,13 @@ package it.unipd.dei.dm1617;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by adele on 17/05/17.
@@ -33,7 +38,9 @@ public class DistanceVector{
 // readLine() and close() may throw errors, so they require you to catch it…
         try {
             while ((content = reader.readLine()) != null) {
+                content=content.substring(1,content.length()-1);
                 list.add(content);
+
             }
             reader.close();
         } catch (IOException e) {
@@ -47,13 +54,12 @@ public class DistanceVector{
         List<Vector<Double>> vettore = new ArrayList<>();
         Vector<Double> vv = new Vector<Double>();
         while (it <= i) {
-            String[] parts = list.get(it).split(",");
+            String[] parts = list.get(it). split(",");
 
 // You can simplify the for loop like this,
 // you call this for each:
             for (String s : parts) {
                 double x = Double.parseDouble(s);
-
                 vv.add(x);
 
             }
@@ -66,8 +72,11 @@ public class DistanceVector{
         }
 
 
+
+
+
     }
-/*
+
 
 
     public static double [] distance(Double  n1, Double n2){
@@ -78,5 +87,5 @@ public class DistanceVector{
             }
 
             return result;
-    }*/
+    }
 }
