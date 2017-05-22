@@ -4,7 +4,9 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by adele on 17/05/17.
@@ -30,10 +32,12 @@ public class DistanceVector{
         List<String> list = new ArrayList<>();
         String content;
         BufferedReader reader = new BufferedReader(new FileReader("centri.txt"));
-// readLine() and close() may throw errors, so they require you to catch it…
+        // readLine() and close() may throw errors, so they require you to catch it…
         try {
             while ((content = reader.readLine()) != null) {
+                content=content.substring(1,content.length()-1);
                 list.add(content);
+
             }
             reader.close();
         } catch (IOException e) {
@@ -41,33 +45,34 @@ public class DistanceVector{
             e.printStackTrace();
         }
 
-// Now proceed with your list, e.g. retrieve first item and split
-        int i = list.size();
-        int it = 0;
+        // Now proceed with your list, e.g. retrieve first item and split
+
+        int i = 0;
         List<Vector<Double>> vettore = new ArrayList<>();
         Vector<Double> vv = new Vector<Double>();
-        while (it <= i) {
-            String[] parts = list.get(it).split(",");
 
-// You can simplify the for loop like this,
-// you call this for each:
+        while (i<list.size()) {
+            String[] parts = list.get(i). split(",");
+
+        // You can simplify the for loop like this,
+        // you call this for each:
             for (String s : parts) {
                 double x = Double.parseDouble(s);
-
                 vv.add(x);
-
             }
             vettore.add(vv);
+            System.out.print(vettore.get(i)+"\n");
 
-            System.out.print(vettore.get(it) + "\n");
             vv.removeAllElements();
-            it++;
+            i++;
 
         }
 
 
+
+
     }
-/*
+
 
 
     public static double [] distance(Double  n1, Double n2){
@@ -78,5 +83,5 @@ public class DistanceVector{
             }
 
             return result;
-    }*/
+    }
 }

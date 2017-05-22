@@ -6,7 +6,6 @@ package it.unipd.dei.dm1617;
 // $example on$
 import org.apache.spark.ml.feature.Word2Vec;
 import org.apache.spark.ml.feature.Word2VecModel;
-import org.apache.spark.ml.linalg.Vector;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
@@ -82,7 +81,7 @@ public class JavaWord2Vec {
         Word2Vec word2Vec = new Word2Vec()
                 .setInputCol("text")
                 .setOutputCol("result")
-                .setVectorSize(300)
+                .setVectorSize(4)
                 .setMinCount(0);
 
         Word2VecModel model = word2Vec.fit(documentDF);
@@ -92,22 +91,28 @@ public class JavaWord2Vec {
 
         try {
             FileWriter fileOut = new FileWriter("word2vec.txt");
-
+            FileWriter fileOutFormat = new FileWriter("word2vecFormatCentri.txt");
             int count = 0;
             for (Row row : result.collectAsList()) {
                 List<String> text = row.getList(0);
                 org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
                 //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
                 String stampa = "" + indici[count];
+                String stampaFormat ="[";
                 int count2 = 1;
                 String vettore = vector.toString();
                 String[] s1 = vettore.substring(1, vettore.length() - 1).split(",");
                 for (int i = 0; i < s1.length; i++) {
                     stampa += " " + count2 + ":" + s1[i];
+                    if(i<s1.length-1)
+                    {stampaFormat += s1[i]+ ",";}
+                    else{stampaFormat += s1[i];}
                     count2++;
+
                 }
 
                 fileOut.write(stampa + "\n");
+                fileOutFormat.write(stampaFormat + "]"+"\n");
                 count++;
 
             }
