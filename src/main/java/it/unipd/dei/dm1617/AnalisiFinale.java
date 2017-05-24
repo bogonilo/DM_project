@@ -23,8 +23,8 @@ public class AnalisiFinale {
 
         String delim = "text";
 
-        //Song[] lista = new Song[numeroElementi()];
-        Song[] lista = new Song[];
+        Song[] lista = new Song[numeroElementi()];
+        //Song[] lista = new Song[9999];
         int i = 0;
 
         try {
@@ -34,15 +34,18 @@ public class AnalisiFinale {
 
 //Restituzione delle informazioni
 
-            while (inputStream.hasNext()) {
+            while (inputStream1.hasNext()) {
 
                 String temp1 = inputStream.nextLine();
 
                 int index = Integer.parseInt(temp1.subSequence(temp1.indexOf("\"index\":") + 8, temp1.indexOf("\"genre\":") - 1).toString());
 
-                String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 9, temp1.indexOf(delim) - 3).toString();
+                String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 8, temp1.indexOf(",\"text\":")).toString();
+                //System.out.println(genere);
 
                 int centro = Integer.parseInt(inputStream1.nextLine());
+
+                //System.out.println(i);
 
                 lista[i] = new Song(index, centro, genere);
                 i++;

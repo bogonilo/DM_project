@@ -84,6 +84,6 @@ public class Song implements Serializable {
   }
 
   public String toStringCentri() {
-    return "Indice canzone: " + index + " di genere: " + genre + "ha centro: " + centro;
+    return "Indice canzone: " + index + " di genere: " + genre + " ha centro: " + centro;
   }
 }

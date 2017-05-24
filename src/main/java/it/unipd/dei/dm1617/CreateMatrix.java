@@ -100,6 +100,7 @@ public class CreateMatrix {
                 String[] splitVals = s.split(",");
                 double[] vals = new double[splitVals.length];
                 for(int i=0; i < splitVals.length; i++) {
+                    System.out.println(vals[i]);
                     vals[i] = Double.parseDouble(splitVals[i]);
                 }
                 return vals;
@@ -128,6 +129,7 @@ public class CreateMatrix {
            System.out.print("canzone num: "+i+" centro "+index+" "+temp+"\n");
            appartenenza.write(index+"\n");
         }
+        appartenenza.flush();
         appartenenza.close();
 
 
