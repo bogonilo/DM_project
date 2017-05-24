@@ -49,7 +49,7 @@ public class JavaKMeans {
 
         // Trains a k-means model.
         //Set the random seed for cluster initialization.
-        KMeans kmeans = new KMeans().setK(numK*50).setSeed(1L);
+        KMeans kmeans = new KMeans().setK(numK).setSeed(1L);
         KMeansModel model = kmeans.fit(dataset);
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors.
@@ -63,7 +63,7 @@ public class JavaKMeans {
             Vector[] centers = model.clusterCenters();
             System.out.println("Cluster Centers: ");
             for (Vector center : centers) {
-                fileOut.write(center.toString());
+                fileOut.write(center.toString() + "\n");
             }
             // $example off$
             fileOut.flush();

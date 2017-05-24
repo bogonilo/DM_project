@@ -69,7 +69,6 @@ public class JavaWord2Vec {
         }
 
         System.out.println("++++++Inizio Word2Vec++++++");
-
         List<Row> data = Arrays.asList(r1);
 
         StructType schema = new StructType(new StructField[]{
@@ -81,7 +80,7 @@ public class JavaWord2Vec {
         Word2Vec word2Vec = new Word2Vec()
                 .setInputCol("text")
                 .setOutputCol("result")
-                .setVectorSize(4)
+                .setVectorSize(100)
                 .setMinCount(0);
 
         Word2VecModel model = word2Vec.fit(documentDF);
@@ -98,7 +97,7 @@ public class JavaWord2Vec {
                 org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
                 //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
                 String stampa = "" + indici[count];
-                String stampaFormat ="[";
+                String stampaFormat ="";
                 int count2 = 1;
                 String vettore = vector.toString();
                 String[] s1 = vettore.substring(1, vettore.length() - 1).split(",");
@@ -112,7 +111,7 @@ public class JavaWord2Vec {
                 }
 
                 fileOut.write(stampa + "\n");
-                fileOutFormat.write(stampaFormat + "]"+"\n");
+                fileOutFormat.write(stampaFormat + "\n");
                 count++;
 
             }
