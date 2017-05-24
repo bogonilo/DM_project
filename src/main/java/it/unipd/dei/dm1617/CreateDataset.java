@@ -17,11 +17,13 @@ public class CreateDataset {
 
         File file = new File(inputPath);
 
+
         try{
             // -read from filePooped with Scanner class
             Scanner inputStream = new Scanner(file);
 
             FileWriter fileOut = new FileWriter("analizzato.csv");
+            FileWriter fileOut2 = new FileWriter("canzoni.txt");
 
             StringTokenizer st;
 
@@ -59,7 +61,10 @@ public class CreateDataset {
                                             temp2.equalsIgnoreCase("\"[Patterson] [instrumental]\"") ||
                                             temp2.equalsIgnoreCase("Instrumental") ||
                                             temp2.equalsIgnoreCase("(Instrumental)") ||
-                                            temp2.equalsIgnoreCase("[Lyrics not available]"))){
+                                            temp2.equalsIgnoreCase("[Lyrics not available]") ||
+                                            temp2.contains("Ich") || temp2.contains("ich") ||
+                                            temp2.contains("para") || temp2.contains("eres") ||
+                                            temp2.contains("nada"))){
 
                                                 if(temp2.charAt(0) == '"' || temp2.charAt(1) == '"' )
                                                     canzone += "\"text\":" + temp2.trim();
@@ -108,6 +113,9 @@ public class CreateDataset {
             fileOut.close();
             System.out.println("Indice ultima canzone analizzata: " + (count-1));
             System.out.println("Canzoni estratte: " + numcanzoni);
+            fileOut2.write("" +numcanzoni);
+            fileOut2.flush();
+            fileOut2.close();
 
         }catch (FileNotFoundException e){
             e.printStackTrace();

@@ -69,7 +69,6 @@ public class JavaWord2Vec {
         }
 
         System.out.println("++++++Inizio Word2Vec++++++");
-
         List<Row> data = Arrays.asList(r1);
 
         StructType schema = new StructType(new StructField[]{
