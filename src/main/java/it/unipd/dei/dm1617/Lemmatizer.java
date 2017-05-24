@@ -105,9 +105,11 @@ public class Lemmatizer {
 
       System.out.println("++++++Inizio lemmatizzazione++++++");
 
+      Date dat = new Date();
 //Restituzione delle informazioni
+      System.out.println(dat.getHours() + " - " + dat.getMinutes());
 
-      while (inputStream.hasNext()) {
+      while (count < 10000) {
 
         String temp1 = inputStream.nextLine();
 
@@ -140,8 +142,7 @@ public class Lemmatizer {
       }
       fileOut.flush();
       fileOut.close();*/
-      Date dat1 = new Date();
-      System.out.println(dat1.getHours() + " - " + dat1.getMinutes());
+
       System.out.println("------Fine lemmatizzazione------");
 
       //Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
