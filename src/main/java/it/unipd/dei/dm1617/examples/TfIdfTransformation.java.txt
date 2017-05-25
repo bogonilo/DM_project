@@ -1,4 +1,4 @@
-package src.main.java.it.unipd.dei.dm1617.examples;
+package it.unipd.dei.dm1617.examples;
 
 import it.unipd.dei.dm1617.*;
 import org.apache.spark.SparkConf;
@@ -25,10 +25,10 @@ public class TfIdfTransformation {
     JavaSparkContext sc = new JavaSparkContext(conf);
 
     // Load dataset of pages
-    JavaRDD<WikiPage> pages = InputOutput.read(sc, dataPath);
+    JavaRDD<String> pages = sc.textFile(dataPath);
 
     // Get text out of pages
-    JavaRDD<String> texts = pages.map((p) -> p.getText());
+    JavaRDD<String> texts = pages.map((p) -> p.);
 
     // Get the lemmas. It's better to cache this RDD since the
     // following operation, lemmatization, will go through it two
@@ -46,10 +46,7 @@ public class TfIdfTransformation {
     //
     // In this case we also cache the dataset because the next step,
     // IDF, will perform two passes over it.
-    JavaRDD<Vector> tf = new CountVectorizer()
-      .setVocabularySize(100)
-      .transform(lemmas)
-      .cache();
+    JavaRDD<Vector> tf = new
 
     // Same as above, here we follow the same pattern, with a small
     // addition. Some of these "configurable" objects configure their
@@ -68,14 +65,14 @@ public class TfIdfTransformation {
     // of pages and vectors within their respective datasets,
     // therefore the first vector corresponds to the first page and so
     // on.
-    JavaPairRDD<WikiPage, Vector> pagesAndVectors = pages.zip(tfidf);
+    JavaPairRDD<Song, Vector> pagesAndVectors = pages.zip(tfidf);
 
     // Finally, we print the distance between the first two pages
-    List<Tuple2<WikiPage, Vector>> firstPages = pagesAndVectors.take(2);
+    List<Tuple2<Song, Vector>> firstPages = pagesAndVectors.take(2);
     double dist = Distance.cosineDistance(firstPages.get(0)._2(), firstPages.get(1)._2());
     System.out.println("Cosine distance between `" +
-      firstPages.get(0)._1().getTitle() + "` and `" +
-      firstPages.get(1)._1().getTitle() + "` = " + dist);
+      firstPages.get(0)._1().getIndex() + "` and `" +
+      firstPages.get(1)._1().getIndex() + "` = " + dist);
 
   }
 

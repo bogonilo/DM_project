@@ -3,34 +3,14 @@ package it.unipd.dei.dm1617;
 
 import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 
-import it.unipd.dei.dm1617.Song;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.mllib.clustering.KMeans;
-import org.apache.spark.mllib.clustering.KMeansModel;
-import org.apache.spark.mllib.linalg.Vector;
-import org.apache.spark.mllib.linalg.Vectors;
-import org.codehaus.janino.Java;
-import org.apache.spark.ml.feature.Word2Vec;
-import org.apache.spark.ml.feature.Word2VecModel;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.RowFactory;
-import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.*;
-import scala.math.Ordering;
 
 /**
  * Collection of functions that allow to transform texts to sequence
@@ -98,6 +78,7 @@ public class Lemmatizer {
     ArrayList<String> generi = new ArrayList<>();
 
     FileWriter fileOut = new FileWriter("lemma.txt");
+   // FileWriter fileOut2 = new FileWriter("lemma2.txt");
 
     try {
 
@@ -124,6 +105,7 @@ public class Lemmatizer {
         testi.add(testoLemma);
 
         fileOut.write("{\"index\":" + index + "," + "\"genre\":" + genere + "," + "\"text\":" + testoLemma.trim() + "}\n");
+       // fileOut2.write("{\"index\":" + index + "," + "\"genre\":" + genere + "}\n");
 
         if(generi.indexOf(genere) == -1)
           generi.add(genere);

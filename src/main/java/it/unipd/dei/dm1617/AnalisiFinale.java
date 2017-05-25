@@ -1,12 +1,8 @@
 package it.unipd.dei.dm1617;
 
-import scala.Int;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -23,8 +19,8 @@ public class AnalisiFinale {
 
         String delim = "text";
 
-        Song[] lista = new Song[numeroElementi()];
-        //Song[] lista = new Song[9999];
+        //Song[] lista = new Song[numeroElementi()];
+        Song[] lista = new Song[9999];
         int i = 0;
 
         try {

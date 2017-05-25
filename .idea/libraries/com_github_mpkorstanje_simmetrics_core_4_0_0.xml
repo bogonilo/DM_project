@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.github.mpkorstanje:simmetrics-core:4.0.0" type="repository">
+    <properties maven-id="com.github.mpkorstanje:simmetrics-core:4.0.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/mpkorstanje/simmetrics-core/4.0.0/simmetrics-core-4.0.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/18.0/guava-18.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.10/commons-codec-1.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

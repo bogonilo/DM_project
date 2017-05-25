@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.stanford.nlp:stanford-corenlp:models-english:3.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.stanford.nlp/stanford-corenlp/3.7.0/e30b72a83ebca85afec184e2215ceb1517e909f0/stanford-corenlp-3.7.0-models-english.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

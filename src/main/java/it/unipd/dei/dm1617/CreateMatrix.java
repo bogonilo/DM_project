@@ -128,6 +128,7 @@ public class CreateMatrix {
            }
            System.out.print("canzone num: "+i+" centro "+index+" "+temp+"\n");
            appartenenza.write(index+"\n");
+
         }
         appartenenza.flush();
         appartenenza.close();

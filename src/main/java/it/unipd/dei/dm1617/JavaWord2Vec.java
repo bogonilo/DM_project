@@ -58,7 +58,6 @@ public class JavaWord2Vec {
         // Input data: Each row is a bag of words from a sentence or document.
 
         String temp1 = "";
-
         Long[] indici = new Long[input.size()];
         Row[] r1 = new Row[input.size()];
         for (int i = 0; i < input.size(); i++) {
@@ -67,6 +66,7 @@ public class JavaWord2Vec {
             r1[i] = RowFactory.create(Arrays.asList(temp1.split(", ")));
 
         }
+
 
         System.out.println("++++++Inizio Word2Vec++++++");
         List<Row> data = Arrays.asList(r1);
@@ -93,7 +93,7 @@ public class JavaWord2Vec {
             FileWriter fileOutFormat = new FileWriter("word2vecFormatCentri.txt");
             int count = 0;
             for (Row row : result.collectAsList()) {
-                List<String> text = row.getList(0);
+                //List<String> text = row.getList(0);
                 org.apache.spark.ml.linalg.Vector vector = (org.apache.spark.ml.linalg.Vector) row.get(1);
                 //System.out.println("Text: " + text + " => \nVector: " + vector + "\n");
                 String stampa = "" + indici[count];
