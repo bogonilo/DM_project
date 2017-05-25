@@ -79,13 +79,24 @@ public class Word2VecJRDD {
                     return words;
                 });
 
-
-
+        System.out.print("---start wordtovec-----");
         //Alleno il modello con il Java RDD di Liste di stringhe
         Word2Vec word2Vec = new Word2Vec()
                 .setVectorSize(100)
                 .setMinCount(0);
+
+    String path="result.txt";
+    //FileWriter newf=new FileWriter("wordResult.txt");
+
         Word2VecModel model = word2Vec.fit(dWords);
+
+        System.out.print("ciao");
+       // JavaRDD<String> m= (JavaRDD) model.transform(String.valueOf(dWords));
+        //newf.write(String.valueOf(m));
+        //newf.close();
+
+
+        model.save(sc.sc(),path);
       //  Word2VecModel modelResult= (Word2VecModel) model.transform("lemmaText.txt");
         //testo il modello
        //System.out.println( model.transform("road"));
@@ -93,18 +104,22 @@ public class Word2VecJRDD {
 
         //faccio diventare il JRDD di Liste di stringhe un JRDD di vettori
         // che rappresentano la media dei vettori delle singole parole della lista
+
         JavaRDD<Vector> vettori =  dWords
                 .map((song) -> {
                             return average(song,model);
                             });
-        FileWriter res= new FileWriter("result.txt");
+
+        FileWriter res2= new FileWriter("resvettori.txt");
         //Testo se vengono vettori unici
         List<Vector> vet = vettori.collect();
-       for (int i=0; i<10; i++){
-           System.out.println(vet.get(i));
-           res.write(String.valueOf(vet.get(i)));
+        int count=0;
+       for (int i=0; i<vet.size(); i++) {
+           res2.write(String.valueOf(vet.get(i)));
+           //System.out.println(vet.get(i));
+
        }
-        res.close();
+        res2.close();
 
         sc.stop();
     }
