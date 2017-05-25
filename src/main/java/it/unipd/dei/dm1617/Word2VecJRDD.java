@@ -5,16 +5,18 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.mllib.feature.Word2Vec;
 import org.apache.spark.mllib.feature.Word2VecModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.text.BreakIterator;
-import java.lang.*;
-
-import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.BLAS;
 import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class Word2VecJRDD {
@@ -22,17 +24,37 @@ public class Word2VecJRDD {
     //settare la dimensione dei vettori del modello
     private static int numDim=10;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         SparkConf sparkConf = new SparkConf()
                 .setMaster("local[4]")
                 .setAppName("tif");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
-        String inputPath = "wiki-sample.txt";
+
+
+        FileWriter lemmaText= new FileWriter("lemmaText.txt");
+        String inputPath = "lemma.txt";
+        File file = new File(inputPath);
+        try{
+
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                String temp1 = inputStream.nextLine();
+                String text = temp1.substring(temp1.indexOf(",\"text\":[") + 9, temp1.length() - 2);
+                lemmaText.write(text+"\n");
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        lemmaText.close();
+
+
+        String input = "lemmaText.txt";
+
 
         //faccio un RDD che ha come collezione le stringhe che sono le righe del testo
-        JavaRDD<String> text=sc.textFile(inputPath,10);
+        JavaRDD<String> text=sc.textFile(input,10);
 
         /* Test
         List<String> a = text.collect();
@@ -61,12 +83,12 @@ public class Word2VecJRDD {
 
         //Alleno il modello con il Java RDD di Liste di stringhe
         Word2Vec word2Vec = new Word2Vec()
-                .setVectorSize(numDim)
+                .setVectorSize(100)
                 .setMinCount(0);
         Word2VecModel model = word2Vec.fit(dWords);
-
+      //  Word2VecModel modelResult= (Word2VecModel) model.transform("lemmaText.txt");
         //testo il modello
-       System.out.println( model.transform("road"));
+       //System.out.println( model.transform("road"));
 
 
         //faccio diventare il JRDD di Liste di stringhe un JRDD di vettori
@@ -75,13 +97,14 @@ public class Word2VecJRDD {
                 .map((song) -> {
                             return average(song,model);
                             });
-
+        FileWriter res= new FileWriter("result.txt");
         //Testo se vengono vettori unici
         List<Vector> vet = vettori.collect();
        for (int i=0; i<10; i++){
            System.out.println(vet.get(i));
+           res.write(String.valueOf(vet.get(i)));
        }
-
+        res.close();
 
         sc.stop();
     }
@@ -94,7 +117,7 @@ public class Word2VecJRDD {
     public static Vector average(List<String> song, Word2VecModel modello){
 
         //inizializzo un vettore di zeri
-      Vector somma = Vectors.zeros(numDim);
+      Vector somma = Vectors.zeros(100);
 
       //faccio la sommatoria di tutti i vettori
       for (int i=0; i<song.size(); i++)
