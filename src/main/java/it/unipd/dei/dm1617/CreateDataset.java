@@ -61,10 +61,7 @@ public class CreateDataset {
                                             temp2.equalsIgnoreCase("\"[Patterson] [instrumental]\"") ||
                                             temp2.equalsIgnoreCase("Instrumental") ||
                                             temp2.equalsIgnoreCase("(Instrumental)") ||
-                                            temp2.equalsIgnoreCase("[Lyrics not available]") ||
-                                            temp2.contains("Ich") || temp2.contains("ich") ||
-                                            temp2.contains("para") || temp2.contains("eres") ||
-                                            temp2.contains("nada"))){
+                                            temp2.equalsIgnoreCase("[Lyrics not available]"))){
 
                                                 if(temp2.charAt(0) == '"' || temp2.charAt(1) == '"' )
                                                     canzone += "\"text\":" + temp2.trim();

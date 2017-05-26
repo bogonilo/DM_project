@@ -115,7 +115,7 @@ public class Word2VecJRDD {
         List<Vector> vet = vettori.collect();
         int count=0;
        for (int i=0; i<vet.size(); i++) {
-           res2.write(String.valueOf(vet.get(i)));
+           res2.write(String.valueOf(vet.get(i)) + "\n");
            //System.out.println(vet.get(i));
 
        }

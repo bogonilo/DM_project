@@ -1,8 +1,12 @@
 package it.unipd.dei.dm1617;
 
+import scala.Int;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -19,16 +23,17 @@ public class AnalisiFinale {
 
         String delim = "text";
 
-        //Song[] lista = new Song[numeroElementi()];
-        Song[] lista = new Song[9999];
+        int numeroCanzoni = numeroElementi("canzoni.txt");
+        Song[] lista = new Song[numeroCanzoni];
+
+        ArrayList<String> listaGeneri = new ArrayList<>();
+
         int i = 0;
 
         try {
-            //FileWriter fileOut = new FileWriter("analisi.txt");
+            FileWriter fileOut = new FileWriter("analisi.txt");
             Scanner inputStream = new Scanner(file);
             Scanner inputStream1 = new Scanner(file1);
-
-//Restituzione delle informazioni
 
             while (inputStream1.hasNext()) {
 
@@ -37,6 +42,9 @@ public class AnalisiFinale {
                 int index = Integer.parseInt(temp1.subSequence(temp1.indexOf("\"index\":") + 8, temp1.indexOf("\"genre\":") - 1).toString());
 
                 String genere = temp1.subSequence(temp1.indexOf("\"genre\":") + 8, temp1.indexOf(",\"text\":")).toString();
+                if(listaGeneri.indexOf(genere) == -1)
+                    listaGeneri.add(genere);
+
                 //System.out.println(genere);
 
                 int centro = Integer.parseInt(inputStream1.nextLine());
@@ -47,21 +55,40 @@ public class AnalisiFinale {
                 i++;
 
             }
-            //fileOut.flush();
-            //fileOut.close();
+            int[] contatore;
+            int numeroCentro = 0;
+            int contCanzoni = 0;
+            for(i = 0; i < numeroElementi("generi.txt"); i++){
+                contatore = new int[numeroElementi("generi.txt")];
+                contCanzoni = 0;
+                for (int j1 = 0; j1 < lista.length; j1++){
+                    //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
+                    if(lista[j1].getCentro() == numeroCentro) {
+                        contatore[listaGeneri.indexOf(lista[j1].getGenre())]++;
+                        contCanzoni++;
+                    }
+                }
+                System.out.println("******************* Nel centro: -"+ numeroCentro + "- ci sono: ");
+                System.out.println("Num canzoni: "+contCanzoni);
+                for(int i1 = 0; i1 < contatore.length; i1++){
+                    double d = Math.round(((double)contatore[i1]*100)/contCanzoni);
+                    System.out.println(listaGeneri.get(i1) + " : " + d + "%");
+
+                }
+                numeroCentro++;
+            }
+
+            fileOut.flush();
+            fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for(int j = 0; j < lista.length; j++){
-            System.out.println(lista[j].toStringCentri());
-        }
-
     }
 
-    public static int numeroElementi() {
+    public static int numeroElementi(String path) {
 
-        String inputPath = "canzoni.txt";
+        String inputPath = path;
         File file = new File(inputPath);
 
         try {
