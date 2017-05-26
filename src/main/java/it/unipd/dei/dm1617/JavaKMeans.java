@@ -31,6 +31,7 @@ public class JavaKMeans {
                 .getOrCreate();
 
         // $example on$
+
         // Loads data.
         int numK = 0;
         try{
@@ -51,7 +52,7 @@ public class JavaKMeans {
         KMeans kmeans;
         KMeansModel model = null;
         try {
-            kmeans = new KMeans().setK(numK);
+            kmeans = new KMeans().setK(numK*1000).setMaxIter(10);
             model = kmeans.fit(dataset);
         }catch (Exception e){
             e.printStackTrace();

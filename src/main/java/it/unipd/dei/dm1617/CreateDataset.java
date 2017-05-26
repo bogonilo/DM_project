@@ -109,7 +109,7 @@ public class CreateDataset {
             inputStream.close();
             fileOut.close();
             System.out.println("Indice ultima canzone analizzata: " + (count-1));
-            System.out.println("Canzoni estratte: " + numcanzoni);
+            System.out.println("Canzoni estratte: " + (numcanzoni-1));
             fileOut2.write("" +numcanzoni);
             fileOut2.flush();
             fileOut2.close();

@@ -35,7 +35,7 @@ public class AnalisiFinale {
             Scanner inputStream = new Scanner(file);
             Scanner inputStream1 = new Scanner(file1);
 
-            while (inputStream1.hasNext()) {
+            while (inputStream1.hasNext() && inputStream.hasNext()) {
 
                 String temp1 = inputStream.nextLine();
 
@@ -49,40 +49,59 @@ public class AnalisiFinale {
 
                 int centro = Integer.parseInt(inputStream1.nextLine());
 
-                //System.out.println(i);
-
                 lista[i] = new Song(index, centro, genere);
                 i++;
-
             }
+            FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
+            int numeroGeneri = numeroElementi("generi.txt");
+            int[] contatore2 = new int[numeroGeneri];
+            int contCanzoni2 = 0;
+            //System.out.println("bene1");
+            for (int j1 = 0; j1 < lista.length-1; j1++){
+                //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
+                    contatore2[listaGeneri.indexOf(lista[j1].getGenre())]++;
+            }
+            fileOutfinale.write("Contatore dei generi delle canzoni: \n");
+            for (int j1 = 0; j1 < numeroGeneri; j1++){
+                fileOutfinale.write(listaGeneri.get(j1) + " : " + contatore2[j1] + "\n");
+            }
+            //System.out.println("bene2");
             int[] contatore;
             int numeroCentro = 0;
             int contCanzoni = 0;
-            for(i = 0; i < numeroElementi("generi.txt"); i++){
-                contatore = new int[numeroElementi("generi.txt")];
+
+            while(numeroCentro < numeroGeneri*1000){
+                contatore = new int[numeroGeneri];
                 contCanzoni = 0;
-                for (int j1 = 0; j1 < lista.length; j1++){
+                for (int j1 = 0; j1 < lista.length-1; j1++){
                     //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
+
                     if(lista[j1].getCentro() == numeroCentro) {
                         contatore[listaGeneri.indexOf(lista[j1].getGenre())]++;
                         contCanzoni++;
                     }
                 }
-                System.out.println("******************* Nel centro: -"+ numeroCentro + "- ci sono: ");
-                System.out.println("Num canzoni: "+contCanzoni);
+                //System.out.println("bene3");
+                fileOutfinale.write("******************* Nel centro: -"+ numeroCentro + "- ci sono: \n");
+                fileOutfinale.write("Num canzoni: " + contCanzoni + "\n");
                 for(int i1 = 0; i1 < contatore.length; i1++){
                     double d = Math.round(((double)contatore[i1]*100)/contCanzoni);
-                    System.out.println(listaGeneri.get(i1) + " : " + d + "%");
+                    if(contatore[i1] != 0)
+                    fileOutfinale.write(listaGeneri.get(i1) + " : " + contatore[i1] + " su: " + contatore2[i1] + "\n");
 
                 }
+                fileOutfinale.write("\n ");
                 numeroCentro++;
             }
-
+            fileOutfinale.flush();
+            fileOutfinale.close();
             fileOut.flush();
             fileOut.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("HAI FINITOOOOO!! BRAVVVVVVOOOOOOOOOO!!!!");
 
     }
 
