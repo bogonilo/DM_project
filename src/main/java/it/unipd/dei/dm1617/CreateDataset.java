@@ -97,6 +97,40 @@ public class CreateDataset {
 
                                                 fileOut.write(canzone);
                                                 numcanzoni++;
+
+                                                switch (genere){
+                                                    case "Rock":
+                                                        n_canzoni_genere[0]++;
+                                                        break;
+                                                    case "Jazz":
+                                                        n_canzoni_genere[1]++;
+                                                        break;
+                                                    case "Metal":
+                                                        n_canzoni_genere[2]++;
+                                                        break;
+                                                    case "Pop":
+                                                        n_canzoni_genere[3]++;
+                                                        break;
+                                                    case "Hip-Hop":
+                                                        n_canzoni_genere[4]++;
+                                                        break;
+                                                    case "Electronic":
+                                                        n_canzoni_genere[5]++;
+                                                        break;
+                                                    case "R&B":
+                                                        n_canzoni_genere[6]++;
+                                                        break;
+                                                    case "Indie":
+                                                        n_canzoni_genere[7]++;
+                                                        break;
+                                                    case "Country":
+                                                        n_canzoni_genere[8]++;
+                                                        break;
+                                                    case "Folk":
+                                                        n_canzoni_genere[9]++;
+                                                        break;
+                                                }
+
                                             }
                                         }
                                     }
@@ -134,6 +168,9 @@ public class CreateDataset {
             fileOut.close();
             System.out.println("Indice ultima canzone analizzata: " + (count-1));
             System.out.println("Canzoni estratte: " + (numcanzoni-1));
+            for(int i = 0 ; i<n_canzoni_genere.length; i++){
+                System.out.println("N canzoni per genere " + (i+1) + ": " + n_canzoni_genere[i]);
+            }
             fileOut2.write("" +numcanzoni);
             fileOut2.flush();
             fileOut2.close();
