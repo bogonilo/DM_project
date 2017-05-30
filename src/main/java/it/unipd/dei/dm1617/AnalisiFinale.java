@@ -55,7 +55,7 @@ public class AnalisiFinale {
             fileOut.close();
 
 
-            FileWriter fileOutfinale = new FileWriter("analisiFinaletxt");
+            FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
             int numeroGeneri = numeroElementi("generi.txt");
             int[] contatore2 = new int[numeroGeneri];
             int contCanzoni2 = 0;
