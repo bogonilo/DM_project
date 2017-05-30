@@ -90,7 +90,7 @@ public class Lemmatizer {
 //Restituzione delle informazioni
       System.out.println(dat.getHours() + " - " + dat.getMinutes());
 
-      while (count < 10000) {
+      while (inputStream.hasNext()) {
 
         String temp1 = inputStream.nextLine();
 

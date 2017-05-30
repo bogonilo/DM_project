@@ -31,6 +31,7 @@ public class JavaKMeans {
                 .getOrCreate();
 
         // $example on$
+
         // Loads data.
         int numK = 0;
         try{
@@ -48,8 +49,14 @@ public class JavaKMeans {
 
         // Trains a k-means model.
         //Set the random seed for cluster initialization.
-        KMeans kmeans = new KMeans().setK(numK).setSeed(1L);
-        KMeansModel model = kmeans.fit(dataset);
+        KMeans kmeans;
+        KMeansModel model = null;
+        try {
+            kmeans = new KMeans().setK(numK*1000).setMaxIter(10);
+            model = kmeans.fit(dataset);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors.
         double WSSSE = model.computeCost(dataset);
