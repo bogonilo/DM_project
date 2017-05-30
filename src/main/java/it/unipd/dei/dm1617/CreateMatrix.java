@@ -144,9 +144,9 @@ public class CreateMatrix {
 
                 var2 = distance(whatYouWant.get(i), centerD.get(j));
                 if (j == 0) {
-                    temp = var2;
+                        temp = var2;
                 }
-                if (temp > var2) {
+               if (temp >= var2 ) {
                     temp = var2;
                     indexEuclidian = j;
 
