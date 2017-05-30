@@ -75,7 +75,7 @@ public class Entropia {
        List<Tuple2<Integer,Integer>> interna = new ArrayList<>();
        int e=0;
        List<Double> entropy= new ArrayList<>();
-        //Calcolo entropia
+
 
 
 
