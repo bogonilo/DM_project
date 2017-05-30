@@ -52,6 +52,7 @@ public class AnalisiFinale {
                 lista[i] = new Song(index, centro, genere);
                 i++;
             }
+            fileOut.flush();
             fileOut.close();
 
 
@@ -98,8 +99,7 @@ public class AnalisiFinale {
             }
             fileOutfinale.flush();
             fileOutfinale.close();
-            fileOut.flush();
-            fileOut.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
