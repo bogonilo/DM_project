@@ -1,7 +1,5 @@
 package it.unipd.dei.dm1617;
 
-import scala.Int;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,10 +14,12 @@ public class AnalisiFinale {
     public static void main(String args[]) {
 
         String inputPath = "lemma.txt";
-        String inputPath1 = "appartenenzaCentri.txt";
+     // String inputPath1 = "appartenenzaCentri.txt";
+        String inputPath1="appartEuclidea.txt";
 
         File file = new File(inputPath);
         File file1 = new File(inputPath1);
+
 
         String delim = "text";
 
@@ -31,7 +31,7 @@ public class AnalisiFinale {
         int i = 0;
 
         try {
-            FileWriter fileOut = new FileWriter("analisi.txt");
+            FileWriter fileOut = new FileWriter("GenereCentroEntropia.txt");
             Scanner inputStream = new Scanner(file);
             Scanner inputStream1 = new Scanner(file1);
 
@@ -45,21 +45,24 @@ public class AnalisiFinale {
                 if(listaGeneri.indexOf(genere) == -1)
                     listaGeneri.add(genere);
 
-                //System.out.println(genere);
+
 
                 int centro = Integer.parseInt(inputStream1.nextLine());
-
+                fileOut.write(genere + " "+ centro+"\n");
                 lista[i] = new Song(index, centro, genere);
                 i++;
             }
-            FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
+            fileOut.close();
+
+
+            FileWriter fileOutfinale = new FileWriter("analisiFinaletxt");
             int numeroGeneri = numeroElementi("generi.txt");
             int[] contatore2 = new int[numeroGeneri];
             int contCanzoni2 = 0;
             //System.out.println("bene1");
             for (int j1 = 0; j1 < lista.length-1; j1++){
                 //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
-                    contatore2[listaGeneri.indexOf(lista[j1].getGenre())]++;
+                contatore2[listaGeneri.indexOf(lista[j1].getGenre())]++;
             }
             fileOutfinale.write("Contatore dei generi delle canzoni: \n");
             for (int j1 = 0; j1 < numeroGeneri; j1++){
@@ -70,7 +73,7 @@ public class AnalisiFinale {
             int numeroCentro = 0;
             int contCanzoni = 0;
 
-            while(numeroCentro < numeroGeneri*1000){
+            while(numeroCentro < numeroGeneri*2){
                 contatore = new int[numeroGeneri];
                 contCanzoni = 0;
                 for (int j1 = 0; j1 < lista.length-1; j1++){
@@ -87,7 +90,7 @@ public class AnalisiFinale {
                 for(int i1 = 0; i1 < contatore.length; i1++){
                     double d = Math.round(((double)contatore[i1]*100)/contCanzoni);
                     if(contatore[i1] != 0)
-                    fileOutfinale.write(listaGeneri.get(i1) + " : " + contatore[i1] + " su: " + contatore2[i1] + "\n");
+                        fileOutfinale.write(listaGeneri.get(i1) + " : " + contatore[i1] + " su: " + contatore2[i1] + "\n");
 
                 }
                 fileOutfinale.write("\n ");
