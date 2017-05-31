@@ -1,13 +1,15 @@
 package it.unipd.dei.dm1617;
 
 
-import java.util.*;
-import java.util.Scanner;
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.SparkConf;
 import scala.Tuple2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Entropia {
 
@@ -17,12 +19,11 @@ public class Entropia {
    public static List<Double> entropy(String inputPath) {
 
        SparkConf sparkConf = new SparkConf()
-                .setMaster("local[4]")
-                .setAppName("entropy");
+               .setMaster("local[4]")
+               .setAppName("entropy");
 
-        JavaSparkContext sc = new JavaSparkContext(sparkConf);
-
-        JavaRDD<String> text = sc.textFile(inputPath, 10);
+       JavaSparkContext sc = new JavaSparkContext(sparkConf);
+       JavaRDD<String> text = sc.textFile(inputPath, 10);
 
         // inizializzo una lista
         List<Tuple2<String, Integer>> pointClu= new ArrayList<>();
@@ -106,14 +107,16 @@ public class Entropia {
 
         entropy.add(i,somma);
         somma=0;
-       }
+       } sc.stop();
 
     return entropy;
     }
 
+
     public static void main(String[] args){
+        String inputPath="GenereCentroEntropia.txt";
+        String inputPath1="GenereCentroEntropiaRandom.txt";
+        System.out.print("entropia cluster"+"\n"+entropy(inputPath)+"\n"+"entropia cluster random "+"\n"+ entropy(inputPath1));
 
-        System.out.println(entropy("analisiCC.txt"));
-}
 
-}
+}}
