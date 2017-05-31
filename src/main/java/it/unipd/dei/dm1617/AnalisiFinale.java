@@ -11,12 +11,44 @@ import java.util.Scanner;
  * Created by daniele on 24/05/17.
  */
 public class AnalisiFinale {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
 
         String inputPath = "lemma.txt";
      // String inputPath1 = "appartenenzaCentri.txt";
         String inputPath1="appartEuclidea.txt";
+        String inputPath2="appartenenzaRandom.txt";
+        FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
+        FileWriter fileOut = new FileWriter("GenereCentroEntropia.txt");
 
+        analisi(inputPath,inputPath1,fileOut,fileOutfinale);
+
+
+        FileWriter fileOutfinale2 = new FileWriter("analisiFinaleRandom.txt");
+
+
+        FileWriter fileOut2 = new FileWriter("GenereCentroEntropiaRandom.txt");
+
+        analisi(inputPath,inputPath2,fileOut2,fileOutfinale2);
+
+
+    }
+
+    public static int numeroElementi(String path) {
+
+        String inputPath = path;
+        File file = new File(inputPath);
+        int i=0;
+        try {
+            Scanner inputStream = new Scanner(file);
+            return Integer.parseInt(inputStream.nextLine());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public static void analisi(String inputPath,String inputPath1,FileWriter fileOut, FileWriter fileOutfinale) {
         File file = new File(inputPath);
         File file1 = new File(inputPath1);
 
@@ -31,7 +63,6 @@ public class AnalisiFinale {
         int i = 0;
 
         try {
-            FileWriter fileOut = new FileWriter("GenereCentroEntropia.txt");
             Scanner inputStream = new Scanner(file);
             Scanner inputStream1 = new Scanner(file1);
 
@@ -56,7 +87,7 @@ public class AnalisiFinale {
             fileOut.close();
 
 
-            FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
+
             int numeroGeneri = numeroElementi("generi.txt");
             int[] contatore2 = new int[numeroGeneri];
             int contCanzoni2 = 0;
@@ -106,19 +137,5 @@ public class AnalisiFinale {
 
         System.out.println("HAI FINITOOOOO!! BRAVVVVVVOOOOOOOOOO!!!!");
 
-    }
-
-    public static int numeroElementi(String path) {
-
-        String inputPath = path;
-        File file = new File(inputPath);
-
-        try {
-            Scanner inputStream = new Scanner(file);
-            return Integer.parseInt(inputStream.nextLine());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 }
