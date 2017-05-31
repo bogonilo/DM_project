@@ -36,6 +36,7 @@ public class Word2VecJRDD {
         FileWriter lemmaText= new FileWriter("lemmaText.txt");
         String inputPath = "lemma.txt";
         File file = new File(inputPath);
+        //estrazione del testo lemmatizzato di ogni singola canzone
         try{
 
             Scanner inputStream = new Scanner(file);
@@ -50,17 +51,10 @@ public class Word2VecJRDD {
         lemmaText.close();
 
 
+
         String input = "lemmaText.txt";
-
-
         //faccio un RDD che ha come collezione le stringhe che sono le righe del testo
         JavaRDD<String> text=sc.textFile(input,10);
-
-        /* Test
-        List<String> a = text.collect();
-        for (int i=0; i<10; i++){
-            System.out.println(a.get(i));
-        }*/
 
         //Ogni riga del testo diventa una lista di stringhe
         JavaRDD<List<String>> dWords =  text
@@ -89,18 +83,7 @@ public class Word2VecJRDD {
     //FileWriter newf=new FileWriter("wordResult.txt");
 
         Word2VecModel model = word2Vec.fit(dWords);
-
-        System.out.print("ciao");
-       // JavaRDD<String> m= (JavaRDD) model.transform(String.valueOf(dWords));
-        //newf.write(String.valueOf(m));
-        //newf.close();
-
-
         model.save(sc.sc(),path);
-      //  Word2VecModel modelResult= (Word2VecModel) model.transform("lemmaText.txt");
-        //testo il modello
-       //System.out.println( model.transform("road"));
-
 
         //faccio diventare il JRDD di Liste di stringhe un JRDD di vettori
         // che rappresentano la media dei vettori delle singole parole della lista

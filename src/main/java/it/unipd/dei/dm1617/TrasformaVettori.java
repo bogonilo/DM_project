@@ -1,11 +1,8 @@
 package it.unipd.dei.dm1617;
 
-import org.apache.spark.sql.Row;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.File.*;
 import java.util.Scanner;
 
 /**

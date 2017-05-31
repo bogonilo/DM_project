@@ -22,14 +22,16 @@ public class RandomCluster {
         Random randomGenerator = new Random();
 
         FileWriter random=new FileWriter("random.txt");
+        //generazione di una clusterizzazione random dei vettori delle canzoni presenti nel dataset
         JavaRDD<String> rawData = sc.textFile("word2vecFormatCentri.txt",10).toJavaRDD();
         List<String> data=rawData.collect();
         List<List<String>> split=split(data, 10);
+
         for(List<String> s: split){
             int length=s.size();
-
+            //generazione di un valore random compreso tra 0 e la lunghezza del cluster
+            //tale valore verrà usato per sceglere il vettore centro del cluster
             int randomInt = randomGenerator.nextInt(length-1);
-            //generazione centri random
             random.write(String.valueOf(s.get(randomInt))+"\n");
             //  System.out.print(String.valueOf(s.get(randomInt)));
         }

@@ -17,17 +17,16 @@ public class AnalisiFinale {
      // String inputPath1 = "appartenenzaCentri.txt";
         String inputPath1="appartEuclidea.txt";
         String inputPath2="appartenenzaRandom.txt";
+
         FileWriter fileOutfinale = new FileWriter("analisiFinale.txt");
         FileWriter fileOut = new FileWriter("GenereCentroEntropia.txt");
-
+        //generazione file finali usando il nostro cluster
         analisi(inputPath,inputPath1,fileOut,fileOutfinale);
 
 
         FileWriter fileOutfinale2 = new FileWriter("analisiFinaleRandom.txt");
-
-
         FileWriter fileOut2 = new FileWriter("GenereCentroEntropiaRandom.txt");
-
+        //generazione file finali usando il cluster random
         analisi(inputPath,inputPath2,fileOut2,fileOutfinale2);
 
 
@@ -135,7 +134,7 @@ public class AnalisiFinale {
             e.printStackTrace();
         }
 
-        System.out.println("HAI FINITOOOOO!! BRAVVVVVVOOOOOOOOOO!!!!");
+        System.out.println("--------------ANALISI FINALE COMPLETATA-----------------");
 
     }
 }

@@ -1,7 +1,7 @@
 package it.unipd.dei.dm1617;
 
-import org.apache.spark.ml.clustering.KMeansModel;
 import org.apache.spark.ml.clustering.KMeans;
+import org.apache.spark.ml.clustering.KMeansModel;
 import org.apache.spark.ml.linalg.Vector;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -23,7 +23,7 @@ import java.util.Scanner;
  */
 public class JavaKMeans {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         // Create a SparkSession.
         SparkSession spark = SparkSession
                 .builder()
@@ -51,15 +51,19 @@ public class JavaKMeans {
         //Set the random seed for cluster initialization.
         KMeans kmeans;
         KMeansModel model = null;
+
+//        int num= Integer.parseInt(model.k().toString());
+  //      System.out.print(num);
+
         try {
-            kmeans = new KMeans().setK(numK*1000).setMaxIter(10);
+            kmeans = new KMeans().setK(numK).setMaxIter(20);
             model = kmeans.fit(dataset);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         // Evaluate clustering by computing Within Set Sum of Squared Errors.
-        double WSSSE = model.computeCost(dataset);
+       double WSSSE = model.computeCost(dataset);
         System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
 
         try {
@@ -79,5 +83,22 @@ public class JavaKMeans {
             e.printStackTrace();
         }
         spark.stop();
+
+
+        FileWriter center = new FileWriter("centriFormat.txt");
+        String inputPath = "centri.txt";
+        File file = new File(inputPath);
+        try {
+
+            Scanner inputStream = new Scanner(file);
+            while (inputStream.hasNext()) {
+                String temp1 = inputStream.nextLine();
+                String centri = temp1.substring(temp1.indexOf("[") + 1, temp1.length() - 1);
+                center.write(centri + "\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        center.close();
     }
 }

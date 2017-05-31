@@ -4,15 +4,9 @@ import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Encoders;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
- * Class that represents a single Wikipedia page. Modify it at your
- * liking, but bear in mind that to support automatic conversion to
- * and from JSON file datasets this class must be a Java Bean: the
- * fields are private (and in our case have the same name as the
- * fields of the JSON objects we read from files) and for each field
- * there shuold be a pair of `getField` and `setField` methods.
+ * Class that represents a single song.
  */
 public class Song implements Serializable {
 

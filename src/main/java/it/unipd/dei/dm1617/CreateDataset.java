@@ -21,7 +21,7 @@ public class CreateDataset {
         int[] n_canzoni_genere = new int[10];
 
         try{
-            // -read from filePooped with Scanner class
+            //read from filePooped with Scanner class
             Scanner inputStream = new Scanner(file);
 
             FileWriter fileOut = new FileWriter("analizzato.csv");

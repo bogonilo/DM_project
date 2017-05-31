@@ -9,47 +9,26 @@ import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
  * Creates a 2D matrix
  */
-public class CreateMatrix {
+public class DistanceEstimation {
     public static void main(String args[]) throws IOException {
-       /* double[][] matrix = new double[10000][10000];
-        int x = 0, y = 0;
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("word2vecFormatCentri.txt"));    //reading files in specified directory
-            String line;
-            while ((line = in.readLine()) != null)    //file reading
-            {
-                String[] values = line.split(",");
-                for (String str : values) {
-                    double str_double = Double.parseDouble(str);
-                    matrix[x][y] = str_double;
-                   //  System.out.print(matrix[x][y] + " ");
-                }
-                y++;
-            }
-            // System.out.println("");
-            x++;
-            in.close();
-        } catch (IOException ioException) {
-        }
-        for(int i=0;i<matrix.length;i++) {
-            System.out.print((listaV.get(i)).toString());
-        }*/
-
-        SparkConf conf = new SparkConf()
+         SparkConf conf = new SparkConf()
                 .setMaster("local[4]")
-                .setAppName("word2vecFormatCentri");
+                .setAppName("DistanceEstimation");
         SparkContext sc = new SparkContext(conf);
 
         JavaRDD<String> data = sc.textFile("word2vecFormatCentri.txt", 0).toJavaRDD();
-        JavaRDD<double[]> whatYouWantRdd = data.map(new Function<String, double[]>() {
+        //inserimento dei vettori delle canzoni in una struttura di tipo List<double[]>
+        JavaRDD<double[]> VettoricanzoniRDD = data.map(new Function<String, double[]>() {
             @Override
             public double[] call(String row) throws Exception {
                 return splitStringtoDoubles(row);
@@ -65,28 +44,15 @@ public class CreateMatrix {
             }
 
         });
-        List<double[]> whatYouWant = whatYouWantRdd.collect();
-
-        FileWriter center = new FileWriter("c.txt");
-        String inputPath = "centri.txt";
-        File file = new File(inputPath);
-        try {
-
-            Scanner inputStream = new Scanner(file);
-            while (inputStream.hasNext()) {
-                String temp1 = inputStream.nextLine();
-                String centri = temp1.substring(temp1.indexOf("[") + 1, temp1.length() - 1);
-                center.write(centri + "\n");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        center.close();
-        DeleteLastWhiteLine("c.txt");
+        List<double[]> Vettoricanzoni = VettoricanzoniRDD.collect();
 
 
+        //estrazione dei centri dal file
+        DeleteLastWhiteLine("centriFormat.txt");
 
-        JavaRDD<String> c = sc.textFile("c.txt", 0).toJavaRDD();
+
+        //inserimento dei vettori dei centri in una struttura di tipo List<double[]>
+        JavaRDD<String> c = sc.textFile("centriFormat.txt", 0).toJavaRDD();
 
         JavaRDD<double[]> centerRDD = c.map(new Function<String, double[]>() {
             @Override
@@ -107,42 +73,19 @@ public class CreateMatrix {
 
         });
         List<double[]> centerD = centerRDD.collect();
-        //  System.out.print("centro0"+ Arrays.toString(centerD.get(0)));
-        //System.out.print(Arrays.toString(whatYouWant.get(0)));
-        FileWriter appartenenza = new FileWriter("appartenenzaCentri.txt");
-
-        int index = 0;
-        for (int i = 0; i < whatYouWant.size(); i++) {
-            double temp = -1;
-            double var;
-
-            for (int j = 0; j < centerD.size(); j++) {
-
-                var = cosineSimilarity(whatYouWant.get(i), centerD.get(j));
-                if (temp < var) {
-                    temp = var;
-                    index = j;
-                }
-
-            }
-            //  System.out.print("canzone num: "+i+" centro "+index+" "+temp+"\n");
-            appartenenza.write(index + "\n");
 
 
-        }
-        appartenenza.flush();
-        appartenenza.close();
-        DeleteLastWhiteLine("appartenenzaCentri.txt");
 
-
+        //usando la distanza euclidea, viene determinato il cluster di appartenenza di ogni canzone
+        //ad ogni canzone viene assegnato il centro con distanza euclidea minina da esso
         FileWriter appartEuclidea = new FileWriter("appartEuclidea.txt");
         int indexEuclidian = 0;
-        for (int i = 0; i < whatYouWant.size(); i++) {
+        for (int i = 0; i < Vettoricanzoni.size(); i++) {
             double var2;
             double temp = 0;
             for (int j = 0; j < centerD.size(); j++) {
 
-                var2 = distance(whatYouWant.get(i), centerD.get(j));
+                var2 = distance(Vettoricanzoni.get(i), centerD.get(j));
                 if (j == 0) {
                         temp = var2;
                 }
@@ -152,7 +95,7 @@ public class CreateMatrix {
 
                 }
             }
-            System.out.print(indexEuclidian + "\n");
+            //System.out.print(indexEuclidian + "\n");
             appartEuclidea.write(indexEuclidian + "\n");
 
             // System.out.print("canzone num: "+i+" centro "+indexEuclidian+" "+temp+"\n");
@@ -161,7 +104,66 @@ public class CreateMatrix {
         appartEuclidea.flush();
         appartEuclidea.close();
         DeleteLastWhiteLine("appartEuclidea.txt");
+
+
+
+        //inserimento dei vettori random dei centri in una struttura di tipo List<double[]>
+        DeleteLastWhiteLine("random.txt");
+        JavaRDD<String> rand = sc.textFile("random.txt", 0).toJavaRDD();
+
+        JavaRDD<double[]> centerRandom = rand.map(new Function<String, double[]>() {
+            @Override
+            public double[] call(String row) throws Exception {
+                return splitStringtoDoubles(row);
+            }
+
+            private double[] splitStringtoDoubles(String s) {
+                String[] splitVals = s.split(",");
+                double[] vals = new double[splitVals.length];
+                for (int i = 0; i < splitVals.length; i++) {
+
+                    vals[i] = Double.parseDouble(splitVals[i]);
+                    //  System.out.println(vals[i]);
+                }
+                return vals;
+            }
+
+        });
+        List<double[]> centerR = centerRandom.collect();
+
+
+        //usando la distanza euclidea, viene determinato il cluster di appartenenza di ogni canzone
+        //ad ogni canzone viene assegnato il centro con distanza euclidea minina da esso
+        FileWriter appartenenzaR= new FileWriter("appartenenzaRandom.txt");
+        int indexR = 0;
+        for (int i = 0; i < Vettoricanzoni.size(); i++) {
+            double var2;
+            double temp = 0;
+            for (int j = 0; j < centerR.size(); j++) {
+
+                var2 = distance(Vettoricanzoni.get(i), centerR.get(j));
+                if (j == 0) {
+                    temp = var2;
+                }
+                if (temp >= var2 ) {
+                    temp = var2;
+                    indexR = j;
+
+                }
+            }
+            System.out.print(indexR + "\n");
+            appartenenzaR.write(indexR + "\n");
+
+            // System.out.print("canzone num: "+i+" centro "+indexEuclidian+" "+temp+"\n");
+
+        }
+        appartenenzaR.flush();
+        appartenenzaR.close();
+        DeleteLastWhiteLine("appartenenzaRandom.txt");
     }
+
+
+
     public static double distance(double[] a, double[] b) {
         double diff_square_sum = 0.0;
         for (int i = 0; i < a.length; i++) {
@@ -197,20 +199,6 @@ public class CreateMatrix {
         }
     }
 
-  /*  public static List mode(double[][] arr) {
-        List<double[]> list = new ArrayList<>();
-        List<Double> newL = new ArrayList<>();
-        for (int i = 0; i < arr.length; i++) {
-            // tiny change 1: proper dimensions
-            double [] vector=new double[arr.length];
-            for (int j = 0; j < arr[i].length; j++) {
-                // tiny change 2: actually store the values
-                newL.add(arr[i][j]);
-            }
-            vector[i] = newL.get(i);
-            list.add(vector);
-            vector=null;
-        }return list;
-    }*/
+
 }
 

@@ -12,12 +12,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/**
- * Collection of functions that allow to transform texts to sequence
- * of lemmas using lemmatization. An alternative process is
- * stemming. For a discussion of the difference between stemming and
- * lemmatization see this link: https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html
- */
+
 public class Lemmatizer {
 
   /**
@@ -25,14 +20,10 @@ public class Lemmatizer {
    */
   public static Pattern symbols = Pattern.compile("^[',\\.`/-_]+$");
 
-  /**
-   * A set of special tokens that are present in the Wikipedia dataset
-   */
-  public static HashSet<String> specialTokens =
-    new HashSet<>(Arrays.asList(","));
+  public static HashSet<String> specialTokens = new HashSet<>(Arrays.asList(","));
 
   /**
-   * Transform a single document in the sequence of its lemmas.
+   * Transform a single song in the sequence of its lemmas.
    */
   public static ArrayList<String> lemmatize(String doc) {
     Document d = new Document(doc.toLowerCase());
@@ -59,7 +50,7 @@ public class Lemmatizer {
 
   /**
    * Transform an RDD of strings in the corresponding RDD of lemma
-   * sequences, with one sequence for each original document.
+   * sequences, with one sequence for each original song.
    */
   public static JavaRDD<ArrayList<String>> lemmatize(JavaRDD<String> docs) {
     return docs.map((d) -> lemmatize(d));
@@ -78,7 +69,6 @@ public class Lemmatizer {
     ArrayList<String> generi = new ArrayList<>();
 
     FileWriter fileOut = new FileWriter("lemma.txt");
-   // FileWriter fileOut2 = new FileWriter("lemma2.txt");
 
     try {
 
@@ -87,7 +77,8 @@ public class Lemmatizer {
       System.out.println("++++++Inizio lemmatizzazione++++++");
 
       Date dat = new Date();
-//Restituzione delle informazioni
+
+      //Restituzione delle informazioni
       System.out.println(dat.getHours() + " - " + dat.getMinutes());
 
       while (inputStream.hasNext()) {
@@ -105,7 +96,7 @@ public class Lemmatizer {
         testi.add(testoLemma);
 
         fileOut.write("{\"index\":" + index + "," + "\"genre\":" + genere + "," + "\"text\":" + testoLemma.trim() + "}\n");
-       // fileOut2.write("{\"index\":" + index + "," + "\"genre\":" + genere + "}\n");
+
 
         if(generi.indexOf(genere) == -1)
           generi.add(genere);
@@ -118,29 +109,15 @@ public class Lemmatizer {
       fileOut.flush();
       fileOut.close();
 
-      /*for(int i = 0; i < listGeneri.size(); i++){
-        String stampare = listGeneri.get(i).toString();
-        fileOut.write((stampare.substring(1, stampare.length())));
-      }
-      fileOut.flush();
-      fileOut.close();*/
-
       System.out.println("------Fine lemmatizzazione------");
 
-      //Map<String, List<Song>> generiGrouped = listGeneri.stream().collect(Collectors.groupingBy(w -> w.getGenres()));
 
-      /*Iterable<String> iterable = testi;
-      for (String s : iterable) {
-        System.out.println(s);
-      }
-      */
       String stampa = "" + generi.size();
       FileWriter fileOut1 = new FileWriter("generi.txt");
       fileOut1.write(stampa);
       fileOut1.flush();
       fileOut1.close();
 
-      //Word2Vector(testi);
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -160,7 +137,6 @@ public class Lemmatizer {
       }
 
     }
-    //System.out.println(input.get(input.size()-1));
     return input;
   }
 
