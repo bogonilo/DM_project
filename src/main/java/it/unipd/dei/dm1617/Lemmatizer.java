@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * Created by Song-Group on 10/05/17.
+ */
 
 public class Lemmatizer {
 

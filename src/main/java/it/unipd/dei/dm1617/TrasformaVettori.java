@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Created by daniele on 25/05/17.
+ * Created by Song-Group on 10/05/17.
  */
+
 public class TrasformaVettori {
     public static void main(String args []){
 

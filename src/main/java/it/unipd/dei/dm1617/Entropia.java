@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Created by Song-Group on 25/05/17.
+ */
+
 public class Entropia {
-
-
-
-
    public static List<Double> entropy(String inputPath) {
 
        SparkConf sparkConf = new SparkConf()
@@ -55,8 +55,8 @@ public class Entropia {
                             Tuple2<String,Integer> coppia = new Tuple2<>(genere,clu);
                             return (new Tuple2<>(coppia, 1));
                         }
-
                 )
+
                 .reduceByKey((x, y) -> x + y)
                 .mapToPair((line) ->{
                     Tuple2<Integer,Integer> clu = new Tuple2<>(line._1._2,line._2);
@@ -65,10 +65,6 @@ public class Entropia {
                 })
                .groupByKey();
 
-
-
-
-
        System.out.println(array.collect());
 
        List<Tuple2<String,Iterable<Tuple2<Integer,Integer>>>> finale = array.collect();
@@ -76,10 +72,6 @@ public class Entropia {
        List<Tuple2<Integer,Integer>> interna = new ArrayList<>();
        int e=0;
        List<Double> entropy= new ArrayList<>();
-
-
-
-
 
        double mcival=0;
        double somma=0;
@@ -119,4 +111,5 @@ public class Entropia {
         System.out.print("entropia cluster"+"\n"+entropy(inputPath)+"\n"+"entropia cluster random "+"\n"+ entropy(inputPath1));
 
 
-}}
+    }
+}

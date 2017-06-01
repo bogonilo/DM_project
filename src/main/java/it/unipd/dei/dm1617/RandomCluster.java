@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by adele on 30/05/17.
+ * Created by Song-Group on 10/05/17.
  */
+
 public class RandomCluster {
 
     public static final void main(String... aArgs) throws IOException {

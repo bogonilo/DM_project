@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Created by Song-Group on 20/05/17.
+ */
 
 public class Word2VecJRDD {
-
-    //settare la dimensione dei vettori del modello
-    private static int numDim=10;
 
     public static void main(String[] args) throws IOException {
 

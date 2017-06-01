@@ -1,7 +1,7 @@
 package it.unipd.dei.dm1617;
 
 /**
- * Created by daniele on 06/05/17.
+ * Created by Song-Group on 06/05/17.
  */
 
 import edu.stanford.nlp.util.StringUtils;

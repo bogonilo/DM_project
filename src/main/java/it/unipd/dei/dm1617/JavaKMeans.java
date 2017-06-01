@@ -13,14 +13,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-
 /**
- * An example demonstrating k-means clustering.
- * Run with
- * <pre>
- * bin/run-example ml.JavaKMeansExample
- * </pre>
+ * Created by Song-Group on 13/05/17.
  */
+
 public class JavaKMeans {
 
     public static void main(String[] args) throws IOException {

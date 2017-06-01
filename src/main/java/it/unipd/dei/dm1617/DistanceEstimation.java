@@ -1,7 +1,7 @@
 package it.unipd.dei.dm1617;
 
 /**
- * Created by adele on 23/05/17.
+ * Created by Song-Group on 25/05/17.
  */
 
 import org.apache.spark.SparkConf;

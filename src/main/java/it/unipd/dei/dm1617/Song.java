@@ -8,6 +8,9 @@ import java.io.Serializable;
 /**
  * Class that represents a single song.
  */
+/**
+ * Created by Song-Group on 25/05/17.
+ */
 public class Song implements Serializable {
 
   public static Encoder<Song> getEncoder() {

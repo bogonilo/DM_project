@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Created by daniele on 24/05/17.
+ * Created by Song-Group on 10/05/17.
  */
+
 public class AnalisiFinale {
     public static void main(String args[]) throws IOException {
 
@@ -104,7 +105,7 @@ public class AnalisiFinale {
             int numeroCentro = 0;
             int contCanzoni = 0;
 
-            while(numeroCentro < numeroGeneri*2){
+            while(numeroCentro < numeroGeneri){
                 contatore = new int[numeroGeneri];
                 contCanzoni = 0;
                 for (int j1 = 0; j1 < lista.length-1; j1++){
@@ -120,7 +121,6 @@ public class AnalisiFinale {
                 fileOutfinale.write("Num canzoni: " + contCanzoni + "\n");
                 for(int i1 = 0; i1 < contatore.length; i1++){
                     double d = Math.round(((double)contatore[i1]*100)/contCanzoni);
-                    if(contatore[i1] != 0)
                         fileOutfinale.write(listaGeneri.get(i1) + " : " + contatore[i1] + " su: " + contatore2[i1] + "\n");
 
                 }
