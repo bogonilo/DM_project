@@ -63,11 +63,11 @@ public class DistanceEstimation {
             private double[] splitStringtoDoubles(String s) {
                 String[] splitVals = s.split(",");
                 double[] vals = new double[splitVals.length];
-                for (int i = 0; i < splitVals.length; i++) {
 
+                for (int i = 0; i < splitVals.length; i++) {
                     vals[i] = Double.parseDouble(splitVals[i]);
-                    //  System.out.println(vals[i]);
                 }
+
                 return vals;
             }
 
@@ -95,17 +95,12 @@ public class DistanceEstimation {
 
                 }
             }
-            //System.out.print(indexEuclidian + "\n");
+
             appartEuclidea.write(indexEuclidian + "\n");
-
-            // System.out.print("canzone num: "+i+" centro "+indexEuclidian+" "+temp+"\n");
-
         }
         appartEuclidea.flush();
         appartEuclidea.close();
         DeleteLastWhiteLine("appartEuclidea.txt");
-
-
 
         //inserimento dei vettori random dei centri in una struttura di tipo List<double[]>
         DeleteLastWhiteLine("random.txt");
@@ -120,17 +115,16 @@ public class DistanceEstimation {
             private double[] splitStringtoDoubles(String s) {
                 String[] splitVals = s.split(",");
                 double[] vals = new double[splitVals.length];
-                for (int i = 0; i < splitVals.length; i++) {
 
+                for (int i = 0; i < splitVals.length; i++) {
                     vals[i] = Double.parseDouble(splitVals[i]);
-                    //  System.out.println(vals[i]);
                 }
+
                 return vals;
             }
 
         });
         List<double[]> centerR = centerRandom.collect();
-
 
         //usando la distanza euclidea, viene determinato il cluster di appartenenza di ogni canzone
         //ad ogni canzone viene assegnato il centro con distanza euclidea minina da esso
@@ -151,26 +145,22 @@ public class DistanceEstimation {
 
                 }
             }
-          //  System.out.print(indexR + "\n");
+
             appartenenzaR.write(indexR + "\n");
-
-            // System.out.print("canzone num: "+i+" centro "+indexEuclidian+" "+temp+"\n");
-
         }
+
         appartenenzaR.flush();
         appartenenzaR.close();
         DeleteLastWhiteLine("appartenenzaRandom.txt");
     }
-
-
 
     public static double distance(double[] a, double[] b) {
         double diff_square_sum = 0.0;
         for (int i = 0; i < a.length; i++) {
             diff_square_sum += (a[i] - b[i]) * (a[i] - b[i]);
         }
-        return Math.sqrt(diff_square_sum);}
-
+        return Math.sqrt(diff_square_sum);
+    }
 
     public static double cosineSimilarity(double[] vectorA, double[] vectorB) {
         double dotProduct = 0.0;
@@ -183,7 +173,6 @@ public class DistanceEstimation {
         }
         return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
     }
-
 
     public static void DeleteLastWhiteLine(String x) throws FileNotFoundException {
         RandomAccessFile raf= new RandomAccessFile(x, "rw");;
@@ -198,7 +187,6 @@ public class DistanceEstimation {
             ex.printStackTrace();
         }
     }
-
 
 }
 

@@ -51,7 +51,6 @@ public class CreateDataset {
             int x1; int count = 0; String temp2 = "";
             // hashNext() loops line-by-line
             while(inputStream.hasNext()){
-            //while(count < 150001){
                 //read single line, put in string
                 String data = inputStream.nextLine();
                 st = new StringTokenizer(data, ",");
@@ -157,12 +156,9 @@ public class CreateDataset {
                     }
 
                 }
-                //fileOut.write(st.nextToken() + "\n");
-                //   fileOut.write(data + "\n");
-            }
-            //System.out.println(inputStream.hasNext());
 
-            //System.out.println(inputStream.next());
+            }
+
             // after loop, close scanner
             inputStream.close();
             fileOut.close();

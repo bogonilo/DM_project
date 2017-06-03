@@ -26,7 +26,6 @@ public class TrasformaVettori {
             while(inputStream.hasNext()) {
                 String temp1 = inputStream.nextLine();
 
-                    //String stampa = "" + count;
                     String stampa = "" + 1;
                     String stampaFormat = "";
                     int count2 = 1;
@@ -35,8 +34,6 @@ public class TrasformaVettori {
                     for (int i = 0; i < s1.length; i++) {
                         Double numero = Double.parseDouble(s1[i]);
                         stampa += " " + count2 + ":" + arrotonda(numero, 15);
-
-
 
                         if (i < s1.length - 1) {
                             stampaFormat += s1[i] + ",";

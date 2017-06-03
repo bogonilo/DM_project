@@ -57,7 +57,7 @@ public class AnalisiFinale {
 
         String delim = "text";
 
-        int numeroCanzoni = numeroElementi("canzoni.txt");
+        int numeroCanzoni = numeroElementi("canzoni.txt") - 3;
         Song[] lista = new Song[numeroCanzoni];
 
         ArrayList<String> listaGeneri = new ArrayList<>();
@@ -92,17 +92,15 @@ public class AnalisiFinale {
 
             int numeroGeneri = numeroElementi("generi.txt");
             int[] contatore2 = new int[numeroGeneri];
-            int contCanzoni2 = 0;
-            //System.out.println("bene1");
+
             for (int j1 = 0; j1 < lista.length-1; j1++){
-                //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
                 contatore2[listaGeneri.indexOf(lista[j1].getGenre())]++;
             }
             fileOutfinale.write("Contatore dei generi delle canzoni: \n");
             for (int j1 = 0; j1 < numeroGeneri; j1++){
                 fileOutfinale.write(listaGeneri.get(j1) + " : " + contatore2[j1] + "\n");
             }
-            //System.out.println("bene2");
+
             int[] contatore;
             int numeroCentro = 0;
             int contCanzoni = 0;
@@ -111,18 +109,16 @@ public class AnalisiFinale {
                 contatore = new int[numeroGeneri];
                 contCanzoni = 0;
                 for (int j1 = 0; j1 < lista.length-1; j1++){
-                    //System.out.println(listaGeneri.indexOf(lista[j1].getGenre()));
 
                     if(lista[j1].getCentro() == numeroCentro) {
                         contatore[listaGeneri.indexOf(lista[j1].getGenre())]++;
                         contCanzoni++;
                     }
                 }
-                //System.out.println("bene3");
+
                 fileOutfinale.write("******************* Nel centro: -"+ numeroCentro + "- ci sono: \n");
                 fileOutfinale.write("Num canzoni: " + contCanzoni + "\n");
                 for(int i1 = 0; i1 < contatore.length; i1++){
-                    double d = Math.round(((double)contatore[i1]*100)/contCanzoni);
                         fileOutfinale.write(listaGeneri.get(i1) + " : " + contatore[i1] + " su: " + contatore2[i1] + "\n");
 
                 }

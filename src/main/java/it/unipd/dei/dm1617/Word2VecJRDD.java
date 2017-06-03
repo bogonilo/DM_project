@@ -36,6 +36,7 @@ public class Word2VecJRDD {
         FileWriter lemmaText= new FileWriter("lemmaText.txt");
         String inputPath = "lemma.txt";
         File file = new File(inputPath);
+        int count = 0;
         //estrazione del testo lemmatizzato di ogni singola canzone
         try{
 
@@ -44,13 +45,14 @@ public class Word2VecJRDD {
                 String temp1 = inputStream.nextLine();
                 String text = temp1.substring(temp1.indexOf(",\"text\":[") + 9, temp1.length() - 2);
                 lemmaText.write(text+"\n");
+                count++;
             }
         }catch(FileNotFoundException e){
             e.printStackTrace();
         }
         lemmaText.close();
 
-
+        System.out.print("Numero cicli: " + count);
 
         String input = "lemmaText.txt";
         //faccio un RDD che ha come collezione le stringhe che sono le righe del testo
@@ -96,7 +98,7 @@ public class Word2VecJRDD {
         FileWriter res2= new FileWriter("resvettori.txt");
         //Testo se vengono vettori unici
         List<Vector> vet = vettori.collect();
-        int count=0;
+        count=0;
        for (int i=0; i<vet.size(); i++) {
            res2.write(String.valueOf(vet.get(i)) + "\n");
            //System.out.println(vet.get(i));
@@ -106,7 +108,6 @@ public class Word2VecJRDD {
 
         sc.stop();
     }
-
 
     //faccio funzione media valori di una serie di parole
     //@input lista di stringhe che rappresenta in questo caso la canzone

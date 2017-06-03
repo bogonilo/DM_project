@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Created by adele on 31/05/17.
  */
-public class filter {
+public class Filter {
     public static void main(String[]args) throws IOException {
         String path1="lemma.txt";
         String path2="word2vecFormatCentri.txt";

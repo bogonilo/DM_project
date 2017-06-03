@@ -27,17 +27,13 @@ public class JavaKMeans {
                 .master("local[4]")
                 .getOrCreate();
 
-        // $example on$
-
-        // Loads data.
         int numK = 0;
         try{
             String inputPath = "generi.txt";
             File file = new File(inputPath);
             Scanner inputStream = new Scanner(file);
-
             numK = Integer.parseInt(inputStream.next());
-            //System.out.println(numK);
+
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
@@ -49,11 +45,8 @@ public class JavaKMeans {
         KMeans kmeans;
         KMeansModel model = null;
 
-//        int num= Integer.parseInt(model.k().toString());
-  //      System.out.print(num);
-
         try {
-            kmeans = new KMeans().setK(numK).setMaxIter(20);
+            kmeans = new KMeans().setK(numK).setMaxIter(5);
             model = kmeans.fit(dataset);
         }catch (Exception e){
             e.printStackTrace();

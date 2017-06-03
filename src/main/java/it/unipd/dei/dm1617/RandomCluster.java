@@ -34,7 +34,6 @@ public class RandomCluster {
             //tale valore verrà usato per sceglere il vettore centro del cluster
             int randomInt = randomGenerator.nextInt(length-1);
             random.write(String.valueOf(s.get(randomInt))+"\n");
-            //  System.out.print(String.valueOf(s.get(randomInt)));
         }
         random.close();
     }

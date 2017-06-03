@@ -93,8 +93,7 @@ public class Entropia {
             List<Integer> clu= new ArrayList<>();
             (finale.get(i)._2).forEach((item)-> mci.add(item._2)  );
             (finale.get(i)._2).forEach((item)-> clu.add(item._1)  );
-            // System.out.println(clu);
-            // System.out.println(mci);
+
             for(int c=0; c < nCluster ; c++){
                 e=0;
                 //trovo il valore del cluster corrispondente e lo salvo in un intero
@@ -108,7 +107,6 @@ public class Entropia {
                 else mcival=pointClu.get(i)._2 ;
                 rap=mcival/pointClu.get(i)._2;
                 somma = somma -((double)(rap)*(Math.log10(rap))/ (Math.log10(2)));
-                //System.out.println(somma);
             }
 
             entropy.add(i,somma);
