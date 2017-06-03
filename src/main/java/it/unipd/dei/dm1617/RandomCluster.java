@@ -26,7 +26,7 @@ public class RandomCluster {
         //generazione di una clusterizzazione random dei vettori delle canzoni presenti nel dataset
         JavaRDD<String> rawData = sc.textFile("word2vecFormatCentri.txt",10).toJavaRDD();
         List<String> data=rawData.collect();
-        List<List<String>> split=split(data, 10);
+        List<List<String>> split=split(data, 5);
 
         for(List<String> s: split){
             int length=s.size();

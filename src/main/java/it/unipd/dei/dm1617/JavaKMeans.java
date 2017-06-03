@@ -23,7 +23,8 @@ public class JavaKMeans {
         // Create a SparkSession.
         SparkSession spark = SparkSession
                 .builder()
-                .appName("JavaKMeansExample")
+                .appName("JavaKMeans")
+                .master("local[4]")
                 .getOrCreate();
 
         // $example on$

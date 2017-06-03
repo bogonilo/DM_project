@@ -26,7 +26,7 @@ public class DistanceEstimation {
                 .setAppName("DistanceEstimation");
         SparkContext sc = new SparkContext(conf);
 
-        JavaRDD<String> data = sc.textFile("word2vecFormatCentri.txt", 0).toJavaRDD();
+        JavaRDD<String> data =  sc.textFile("word2vecFormatCentri.txt", 0).toJavaRDD();
         //inserimento dei vettori delle canzoni in una struttura di tipo List<double[]>
         JavaRDD<double[]> VettoricanzoniRDD = data.map(new Function<String, double[]>() {
             @Override
@@ -151,7 +151,7 @@ public class DistanceEstimation {
 
                 }
             }
-            System.out.print(indexR + "\n");
+          //  System.out.print(indexR + "\n");
             appartenenzaR.write(indexR + "\n");
 
             // System.out.print("canzone num: "+i+" centro "+indexEuclidian+" "+temp+"\n");

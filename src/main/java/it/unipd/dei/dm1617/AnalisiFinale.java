@@ -7,15 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static it.unipd.dei.dm1617.DistanceEstimation.DeleteLastWhiteLine;
+
 /**
  * Created by Song-Group on 10/05/17.
  */
 
 public class AnalisiFinale {
     public static void main(String args[]) throws IOException {
-
         String inputPath = "lemma.txt";
-     // String inputPath1 = "appartenenzaCentri.txt";
+        // String inputPath1 = "appartenenzaCentri.txt";
         String inputPath1="appartEuclidea.txt";
         String inputPath2="appartenenzaRandom.txt";
 
@@ -29,7 +30,8 @@ public class AnalisiFinale {
         FileWriter fileOut2 = new FileWriter("GenereCentroEntropiaRandom.txt");
         //generazione file finali usando il cluster random
         analisi(inputPath,inputPath2,fileOut2,fileOutfinale2);
-
+        DeleteLastWhiteLine("GenereCentroEntropia.txt");
+        DeleteLastWhiteLine("GenereCentroEntropiaRandom.txt");
 
     }
 

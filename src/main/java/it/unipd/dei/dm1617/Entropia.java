@@ -7,6 +7,8 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -116,9 +118,12 @@ public class Entropia {
         return entropy;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         System.out.println("entropia nostro cluster \n"+entropy("GenereCentroEntropia.txt",10)+"\n"+"entropia random \n"+entropy("GenereCentroEntropiaRandom.txt",10));
+        FileWriter entropia=new FileWriter("entropiaRisultati.txt");
+        entropia.write("entropia nostro cluster \n"+entropy("GenereCentroEntropia.txt",10)+"\n"+"entropia random \n"+entropy("GenereCentroEntropiaRandom.txt",10));
+        entropia.close();
     }
 
 }

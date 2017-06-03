@@ -28,7 +28,7 @@ public class Word2VecJRDD {
 
         SparkConf sparkConf = new SparkConf()
                 .setMaster("local[4]")
-                .setAppName("tif");
+                .setAppName("wtv");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
 
@@ -83,7 +83,7 @@ public class Word2VecJRDD {
     //FileWriter newf=new FileWriter("wordResult.txt");
 
         Word2VecModel model = word2Vec.fit(dWords);
-        model.save(sc.sc(),path);
+       // model.save(sc.sc(),path);
 
         //faccio diventare il JRDD di Liste di stringhe un JRDD di vettori
         // che rappresentano la media dei vettori delle singole parole della lista
